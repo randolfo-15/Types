@@ -1,7 +1,7 @@
 ___
 <div align="center">
 
-![java](./.images/icons/java3d.png) 
+![java](./.images/icons/java_page.png) 
 <u>
     <h1>
      Bem vindo ao lado Java da força.
