@@ -1,18 +1,13 @@
 ___
 <div align="center">
 
-![java](./.images/icons/java_page.png) 
+![java](./images/icons/java_page.png) 
 
-<u>
-    <h1>
-        Bem vindo ao lado Java da força.
-    </h1>
-</u>
+# Bem vindo ao lado Java da força.
 
 </div>
 
-
-
+___
 <font color="purple" size="4"> 
 Este repositório é dedicado para aplicações java, cada subdiretório contem um readme descrevendo a metodologia de cada projeto e seu proposito. 
 </font>
