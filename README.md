@@ -1,17 +1,13 @@
 ___
-<div align="center" style="background-image: url('./.images/icons/fundo.png');">
+<div align="center">
 
 ![java](./.images/icons/java_page.png) 
+<u>
+    <h1>
+     Bem vindo ao lado Java da força.
+    </h1>
+</u>
 </div>
-
-
-
-<div align="center">
-    <font  size="6">
-        Bem vindo ao lado Java da força.
-    </font>
-</div>
-
 <br/>
 
 <font color="purple" size="4"> 
