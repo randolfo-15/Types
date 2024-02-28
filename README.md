@@ -1,16 +1,14 @@
-___
 <div align="center">
 
 ![java](./images/icons/java_page.png) 
-
 # Bem vindo ao lado Java da força.
 
 </div>
 
 ___
-<font color="purple" size="4"> 
-Este repositório é dedicado para aplicações java, cada subdiretório contem um readme descrevendo a metodologia de cada projeto e seu proposito. 
-</font>
+ 
+### Este repositório é dedicado para aplicações java, cada subdiretório contem um readme descrevendo a metodologia de cada projeto e seu proposito. 
+
 
 O que é o <a href="https://pt.m.wikipedia.org/wiki/Java_(linguagem_de_programa%C3%A7%C3%A3o)">Java</a>
 --------------
