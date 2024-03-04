@@ -13,6 +13,7 @@ public class Types extends Category{
    // Fields
    // ======
    private String  name    = "",
+                   icon    = "",
                    example = "";
    
    private byte size = 0;
@@ -23,14 +24,16 @@ public class Types extends Category{
    // =======
    public void set_size(byte size)               { this.size=size;           }
    public void set_name(String name)             { this.name=name;           }
+   public void set_icon(String icon)             { this.icon=icon;           }
    public void set_example(String example)       { this.example=example;     }
    public void set_extension(double[] extension) { this.extension=extension; }
-
    // Getting
    // =======
    public byte     get_size()      { return size;      }
    public String   get_name()      { return name;      }
+   public String   get_icon()      { return icon;      }
    public String   get_example()   { return example;   }
    public double[] get_extension() { return extension; }
+   
 }
 
