@@ -1,7 +1,0 @@
--- Cria a tabela de tipos
--- =======================
-CREATE TABLE Kinds(id int);
-
--- Cria a tabela de Categorias
--- ===========================
-CREATE TABLE Categories(id int);

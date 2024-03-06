@@ -1,11 +1,12 @@
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.DriverManager;
+import java.lang.*;
 
 public class Bank{
 // Fields
 // ======
-    String url="jdbc:sqlite:a.db";
+    final String url="jdbc:sqlite:a.db";
     Connection cnt=null;    
 
 // Build
@@ -25,6 +26,6 @@ public class Bank{
         catch(SQLException bug){ msg_erro(bug); }
     }
     
-    private void msg_erro(SQLException bug){ System.out.println(bug);}
+    private void msg_erro(SQLException bug){ System.err.println(bug);}
 
 }
