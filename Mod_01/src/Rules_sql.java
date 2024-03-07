@@ -9,7 +9,7 @@
 */
 
 
-enum rules{
+enum Sql{
     insert_ctg,   //< Key:inserir uma nova categoria no banco de dados.
     insert_type,  //< Key:inserir um novo tipo no banco de dados.
     update_ctg,   //< Key:Update em uma categoria
