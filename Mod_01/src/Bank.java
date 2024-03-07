@@ -9,6 +9,7 @@
 */
 
 import java.sql.Statement;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.DriverManager;
@@ -41,5 +42,6 @@ public class Bank{
     }
     
     protected void msg_erro(SQLException bug){ System.err.println(bug);}
+    protected void msg_erro(IOException bug){  System.err.println(bug);}
  
 }

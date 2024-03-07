@@ -1,4 +1,4 @@
-/**
+/*!*****************************************************************
  *  Bank_Types 
  *  ==========
  * @author: Randolfo A Gonçalves
@@ -6,48 +6,54 @@
  * @file:   Category.java 
  *
  * Classe dedicada para operações CRUD no banco de dados:
-*/
+*******************************************************************/
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Bank_Types extends Bank{
+    //! Conteiner de regras sql:
+    Map<rules,String> query = new HashMap<rules,String>();
     
-    private final int insert_ctg  = 0,
-                      insert_type = 1;
+    //! Inicializa o conteiner lendo o file querys.sqlite
+    private void init_querys(String uri,int i){
+        try{ List<String> line=Files.readAllLines(Paths.get(uri)); 
+             while((++i)<rules.size) query.put(rules.values()[i],line.get(i)); 
+        }catch(IOException bug){ msg_erro(bug); }
+    } 
     
-    private final String[] query={
-        /*---------------------Categories----------------------*/
-        /*  Insert  */
-        "INSERT INTO Categories" 
-            +"(_name,_brief,_color)"+
-        "VALUES" 
-            +"(?,?,?)",
-
-        /*------------------------Types------------------------*/
-        /*  Insert  */
-        "INSERT INTO Kinds"
-            +"(_name_ctg,_name,_icon,_exemple,_size,_min,_max)"+
-        "VALUES"
-            +"(?,?,?,?,?,?,?)"
-    };
-    public Bank_Types(String path){ super(path); } 
-
-    public void insert(Category ctg){
+    //! Build Class Bank_Types:
+    public Bank_Types(String path_bank,String path_querys){ 
+        super(path_bank); 
+        init_querys(path_querys,-1); 
+    } 
+    
+    //! Insert or Update Category
+    public void change(Category ctg,rules rule){
         try{
-            pstt=cnt.prepareStatement(query[insert_ctg]);// Inicializa query
-
-            pstt.setString(1,ctg.get_category_name());   // Subistitui ? 
+            pstt=cnt.prepareStatement(query.get(rule));
+            
+            pstt.setString(1,ctg.get_category_name());    
             pstt.setString(2,ctg.get_category_brief());
             pstt.setString(3,ctg.get_color());
             
-            pstt.executeUpdate();                        // Exeuta query
+            if(rule==rules.update_ctg) pstt.setString(4,ctg.get_category_name()); 
+            
+            pstt.executeUpdate();                        
 
         }catch(SQLException bug){msg_erro(bug);}
 
     }
-    public void insert(Types type){
+
+    //! Insert or Update Types
+    public void insert(Types type,rules rule){
         try{
-            pstt=cnt.prepareStatement(query[insert_type]);
+            pstt=cnt.prepareStatement(query.get(rules.insert_type));
 
             pstt.setString(1,type.get_category_name());
             pstt.setString(2,type.get_name());
@@ -57,6 +63,7 @@ public class Bank_Types extends Bank{
             pstt.setDouble(6,type.get_extension()[0]);
             pstt.setDouble(7,type.get_extension()[1]);
 
+            if(rule==rules.update_type) pstt.setString(8,type.get_name()); 
             pstt.executeUpdate();
 
         }catch(SQLException bug){msg_erro(bug);}

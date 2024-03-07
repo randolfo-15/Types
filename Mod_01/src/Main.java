@@ -12,18 +12,17 @@
 public class Main{
 
     public static void main(String[] argv){
-
          
-        Bank_Types bt=new Bank_Types(argv[0]);
+        Bank_Types bt=new Bank_Types(argv[0],argv[1]);
         
-        /* 
-        Category ctg= new Category();
-        ctg.set_category_name("Numeric");
-        ctg.set_category_brief("Representa números");
-        ctg.set_color("#0000FF");
-        bt.insert(ctg);
          
-
+        Category ctg= new Category();
+        ctg.set_category_name("Text");
+        ctg.set_category_brief("Representa stream de string");
+        ctg.set_color("#FF0000");
+        bt.change(ctg,rules.update_ctg);
+         
+        /*
         Types type= new Types();
         type.set_name("int");
         type.set_category_name("Numeric");

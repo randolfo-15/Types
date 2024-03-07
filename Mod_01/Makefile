@@ -8,9 +8,9 @@ root = $(shell pwd)#---------------------<> Fouder root
 
 # Drive
 # -----
-Api = slf4j-api-2.0.9.jar#---------<> Api 
-Provd = slf4j-simple-2.0.12.jar:#--<> Provedor
-Jdbc = sqlite-jdbc-3.45.1.1.jar#---<> Jdbc sqlite
+Api = sql/drive/slf4j-api-2.0.9.jar#---------<> Api 
+Provd = sql/drive/slf4j-simple-2.0.12.jar:#--<> Provedor
+Jdbc = sql/drive/sqlite-jdbc-3.45.1.1.jar#---<> Jdbc sqlite
 
 
 # Targets
@@ -30,4 +30,4 @@ clear:
 # Execute 
 # -------
 run:
-	java -cp ".:$(Api):$(Provd):$(Jdbc)" Main "jdbc:sqlite:$(root)/data.db"
+	java -cp ".:$(Api):$(Provd):$(Jdbc)" Main "jdbc:sqlite:$(root)/sql/data.db" "$(root)/sql/querys.sqlite"
