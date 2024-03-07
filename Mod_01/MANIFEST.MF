@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Created-By: 1.0.0 (Randolfo A Goncalves)
+Main-Class: Main
+Class-Path: drive.slf4j-api-2.0.9.jar drive.slf4j-simple-2.0.12.jar drive.sqlite-jdbc-3.45.1.1.jar

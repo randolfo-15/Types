@@ -1,23 +1,37 @@
+/**
+ *  Bank 
+ * =====
+ * @author: Randolfo A Gonçalves
+ * @since:  06/02/24
+ * @file:   Category.java 
+ *
+ * Classe dedicada para connect ao banco:
+*/
+
+import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.DriverManager;
-import java.lang.*;
+import java.sql.PreparedStatement;
 
 public class Bank{
 // Fields
 // ======
-    final String url="jdbc:sqlite:a.db";
-    Connection cnt=null;    
+    protected Connection        cnt = null;    
+    protected Statement         stt = null;
+    protected PreparedStatement pstt= null;
 
 // Build
 // =====
-    public Bank(){ connect(url); }
     public Bank(String url){ connect(url); }
 
 // Connection
 // ==========
     private void connect(String url){
-        try{ cnt=DriverManager.getConnection(url);}
+        try{ 
+            cnt=DriverManager.getConnection(url);
+            stt=cnt.createStatement();            
+        } 
         catch(SQLException bug){ msg_erro(bug);   }
     }
 
@@ -26,6 +40,6 @@ public class Bank{
         catch(SQLException bug){ msg_erro(bug); }
     }
     
-    private void msg_erro(SQLException bug){ System.err.println(bug);}
-
+    protected void msg_erro(SQLException bug){ System.err.println(bug);}
+ 
 }

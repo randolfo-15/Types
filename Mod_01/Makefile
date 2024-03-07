@@ -1,19 +1,33 @@
-all: Main.class
+# Variables
+# =========
 
 # Files
-# =====
-files = ./src/*.java
+# -----
+files = ./src/*.java#--------------<> Sources java 
+root = $(shell pwd)#---------------------<> Fouder root
 
-# Drives Sql
-# ==========
-drive = ".:data/drive/slf4j-api-2.0.9.jar:./data/drive/slf4j-simple-2.0.12.jar:./data/drive/sqlite-jdbc-3.45.1.1.jar"
+# Drive
+# -----
+Api = slf4j-api-2.0.9.jar#---------<> Api 
+Provd = slf4j-simple-2.0.12.jar:#--<> Provedor
+Jdbc = sqlite-jdbc-3.45.1.1.jar#---<> Jdbc sqlite
 
-# Build java
-# ==========
-Main.class: $(files)
-	javac -d ./class  $(files)
 
-# Execute program
-# ===============
-run: 
-	java -cp "/class/Main"
+# Targets
+# =======
+all: Program
+
+# Build
+# -----
+Program: $(files)
+	javac -d .  $(files); \
+
+# clear
+# -----
+clear:
+	rm *.class
+
+# Execute 
+# -------
+run:
+	java -cp ".:$(Api):$(Provd):$(Jdbc)" Main "jdbc:sqlite:$(root)/data.db"
