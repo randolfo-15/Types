@@ -16,12 +16,18 @@ public class Main{
         Bank_Types bt=new Bank_Types(argv[0],argv[1]);
          
         Category ctg= new Category();
+        /*
         ctg.set_category_name("Text");
         ctg.set_category_brief("Representa stream de string");
         ctg.set_color("#FF0000");
-
-        bt.querys(Sql.C_INSERT,ctg);
-
+        */
+        ctg.set_category_name("Text");
+        bt.select(ctg);
+        System.out.println(
+            ctg.get_category_name()+"\n"+
+            ctg.get_category_brief()+"\n"+
+            ctg.get_color()+"\n"
+        );
         Types type= new Types();
         type.set_name("int");
         type.set_category_name("Numeric");

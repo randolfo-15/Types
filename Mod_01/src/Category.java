@@ -1,4 +1,8 @@
-/**
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+/*!****************************************************************
  *  Category
  * ==========
  * @author: Randolfo A Gonçalves
@@ -6,9 +10,9 @@
  * @file:   Category.java 
  *
  * Classe dedicada para classificação e agrupamento de Types.
-*/
+******************************************************************/
 
-public class Category{
+public class Category {
     // Fields
     // ======
     private String name  = "",
@@ -25,4 +29,5 @@ public class Category{
     public String get_color()          { return color; }
     public String get_category_name()  { return name;  } 
     public String get_category_brief() { return brief; } 
+
 }

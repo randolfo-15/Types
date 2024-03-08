@@ -30,106 +30,109 @@ public class Bank_Types extends Bank{
     //! Build Class Bank_Types:
     Bank_Types(String path_bank,String uri){ 
         super(path_bank); 
-        try{ init(Files.readAllLines(Paths.get(uri)),-1); } 
-        catch(IOException e){ msg(e); }
+        try{init(Files.readAllLines(Paths.get(uri)),-1);} 
+        catch(IOException e){msg(e);}
     } 
-
-    //! Selecionar query para Category
-    void querys(Sql sql,Category ctg){
-        switch (sql){
-        //  Cases Category
-        // ================
-            case C_INSERT: ins(Pstt(query.get(sql)),ctg); break;
-            case C_UPDATE: upd(Pstt(query.get(sql)),ctg); break; 
-            case C_DELETE: del(Pstt(query.get(sql)),ctg); break; 
-            case C_SELECT: sel(Rstt(query.get(sql)),ctg); break; 
-            
-        //  Cases Types
-        // =============
-            //    case T_INSERT: ins(Pstt(query.get(sql)),type).execute(); 
-            //    case T_UPDATE: upd(Pstt(query.get(sql)),type).execute(); 
-            //    case T_DELETE: del(Pstt(query.get(sql)),type).execute(); 
-            //    case T_SELECT: sel(Rstt(query.get(sql)),type);                  
-        }
-}
-
-    private
-    void del(PreparedStatement pstt,Category ctg){ 
-        try{ pstt.setString(1,ctg.get_category_name());        
+    
+    //  Category 
+    // ==========
+    
+    void delete(Category ctg){ 
+        try{ PreparedStatement pstt=cnt.prepareStatement(query.get(Sql.C_DELETE));
+             pstt.setString(1,ctg.get_category_name());        
              pstt.executeUpdate();
-
+        
         }catch(SQLException e){msg(e);}  
     }
     
-    private 
-    void ins(PreparedStatement pstt,Category ctg){ 
-        try{ pstt.setString(1,ctg.get_category_name());                
+    void insert(Category ctg){ 
+        try{ PreparedStatement pstt=cnt.prepareStatement(query.get(Sql.C_INSERT));
+             pstt.setString(1,ctg.get_category_name());                
              pstt.setString(2,ctg.get_category_brief());
              pstt.setString(3,ctg.get_color());           
              pstt.executeUpdate();
-
+        
         }catch(SQLException e){msg(e);}
-         
     }
-    
-    private
-    void upd(PreparedStatement pstt,Category ctg){ 
-        try{ pstt.setString(1,ctg.get_category_name());                
+
+    void update(Category ctg){ 
+        try{ PreparedStatement pstt=cnt.prepareStatement(query.get(Sql.C_UPDATE));
+             pstt.setString(1,ctg.get_category_name());                
              pstt.setString(2,ctg.get_category_brief());
              pstt.setString(3,ctg.get_color());           
              pstt.setString(4,ctg.get_category_name());    
              pstt.executeUpdate();
-
+        
         }catch(SQLException e){msg(e);}
     }
-    
-    private
-    void sel(ResultSet rset,Category ctg){ 
-        try{ ctg.set_category_name(rset.getString("_name"));    
-             ctg.set_category_brief(rset.getString("_brief"));    
-             ctg.set_color(rset.getString("_color"));           
 
-        }catch( SQLException e ){ msg(e); }
+    void select(Category ctg){ 
+        try{ PreparedStatement pstt=cnt.prepareStatement(query.get(Sql.C_SELECT));
+             pstt.setString(1,ctg.get_category_name());
+             ResultSet rset=pstt.executeQuery(query.get(Sql.C_SELECT));
+             ctg.set_color(rset.getString("_color"));
+             ctg.set_category_name(rset.getString("_name"));    
+             ctg.set_category_brief(rset.getString("_brief"));
+
+        }catch(SQLException sql){msg(sql);}
     }
    
-    private
-    void del(PreparedStatement pstt,Types type){ 
-        try{ pstt.setString(1,type.get_category_name());        
+    //  Types 
+    // =======
+    
+    void delete(Types type){ 
+        try{ PreparedStatement pstt=cnt.prepareStatement(query.get(Sql.T_DELETE));
+             pstt.setString(1,type.get_name());        
              pstt.executeUpdate();
-
+        
         }catch(SQLException e){msg(e);}  
     }
     
-    private 
-    void ins(PreparedStatement pstt,Types type){ 
-        try{ pstt.setString(1,type.get_category_name());                
-             pstt.setString(2,type.get_category_brief());
-             pstt.setString(3,type.get_color());           
+    void insert(Types type){ 
+        try{ PreparedStatement pstt=cnt.prepareStatement(query.get(Sql.T_INSERT));
+             pstt.setString(1,type.get_name());
+             pstt.setString(2,type.get_category_name());
+             pstt.setString(3,type.get_icon());
+             pstt.setString(4,type.get_example());
+             pstt.setByte(5,type.get_size());
+             pstt.setDouble(6,type.get_extension()[0]);
+             pstt.setDouble(7,type.get_extension()[1]);
              pstt.executeUpdate();
-
-        }catch(SQLException e){msg(e);}
-         
-    }
-    
-    private
-    void upd(PreparedStatement pstt,Types type){ 
-        try{ pstt.setString(1,type.get_category_name());                
-             pstt.setString(2,type.get_category_brief());
-             pstt.setString(3,type.get_color());           
-             pstt.setString(4,type.get_category_name());    
-             pstt.executeUpdate();
-
+        
         }catch(SQLException e){msg(e);}
     }
-    
-    private
-    void sel(ResultSet rset,Types type){ 
-        try{ type.set_category_name(rset.getString("_name_ctg"));    
-             type.set_category_brief(rset.getString("_brief"));    
-             type.set_color(rset.getString("_color"));           
 
-        }catch( SQLException e ){ msg(e); }
+    void update(Types type){ 
+        try{ PreparedStatement pstt=cnt.prepareStatement(query.get(Sql.T_UPDATE));
+             pstt.setString(1,type.get_name());
+             pstt.setString(2,type.get_category_name());
+             pstt.setString(3,type.get_icon());
+             pstt.setString(4,type.get_example());
+             pstt.setByte(5,type.get_size());
+             pstt.setDouble(6,type.get_extension()[0]);
+             pstt.setDouble(7,type.get_extension()[1]);
+             pstt.setString(8,type.get_name()); 
+             pstt.executeUpdate();
+        
+        }catch(SQLException e){msg(e);}
     }
+
+    void select(Types type){ 
+        try{ PreparedStatement pstt=cnt.prepareStatement(query.get(Sql.T_SELECT));
+             pstt.setString(1,type.get_name()); 
+             ResultSet rset=pstt.executeQuery(query.get(Sql.T_SELECT));
+             type.set_name(rset.getString("_name"));
+             type.set_category_name(rset.getString("_name_ctg"));
+             type.set_icon(rset.getString("_icon"));
+             type.set_example(rset.getString("_exemple"));
+             type.set_size(rset.getByte("_size"));
+             type.set_extension(new double[]{rset.getDouble("_min"),rset.getDouble("_max")});
+
+        }catch(SQLException sql){msg(sql);}
+    }
+
+
+
 
 
 
@@ -190,5 +193,6 @@ public class Bank_Types extends Bank{
     }
 
     //! Select to Types
-    Types get_type(){ return null; }*/
+    Types get_type(){ return null; }
+    */
 } 
