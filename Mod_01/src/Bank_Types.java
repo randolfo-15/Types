@@ -18,25 +18,26 @@ import java.util.Map;
 
 public class Bank_Types extends Bank{
     //! Conteiner de regras sql:
-    private
     Map<Sql,String> query = new HashMap<Sql,String>();
     
     //! Inicializa o conteiner lendo o file querys.sqlite
-    private
-    void init(List<String> line,int i){ while(++i<Sql.size) query.put(Sql.values()[i],line.get(i));} 
+    void init(List<String> line,int i){ while(++i<Sql.size)query.put(Sql.values()[i],line.get(i));} 
     
     //! Build Class Bank_Types:
-    Bank_Types(String url,String uri){ 
-        super(url);
-        try{ init(Files.readAllLines(Paths.get(uri)),-1);} catch(IOException e){msg_erro(e);}
+    public Bank_Types(String path_bank,String uri){ 
+        super(path_bank); 
+        try{init(Files.readAllLines(Paths.get(uri)),-1);} catch(IOException e){msg_erro(e);}
     } 
     
     //! Insert or Update Category
-    void change(Category ctg,Sql rule){
+    public void change(Category ctg,Sql rule){
         try{
             pstt=cnt.prepareStatement(query.get(rule));
             
             pstt.setString(1,ctg.get_category_name());    
+
+            if(rule==Sql.delete_ctg){ pstt.executeUpdate(); return; } 
+            
             pstt.setString(2,ctg.get_category_brief());
             pstt.setString(3,ctg.get_color());
             
@@ -48,12 +49,15 @@ public class Bank_Types extends Bank{
     }
 
     //! Insert or Update Types
-    void insert(Types type,Sql rule){
+    public void change(Types type,Sql rule){
         try{
             pstt=cnt.prepareStatement(query.get(rule));
 
-            pstt.setString(1,type.get_category_name());
-            pstt.setString(2,type.get_name());
+            pstt.setString(1,type.get_name());
+            
+            if(rule==Sql.delete_type){ pstt.executeUpdate(); return; } 
+            
+            pstt.setString(2,type.get_category_name());
             pstt.setString(3,type.get_icon());
             pstt.setString(4,type.get_example());
             pstt.setByte(5,type.get_size());

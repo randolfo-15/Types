@@ -20,9 +20,9 @@ public class Main{
         ctg.set_category_name("Text");
         ctg.set_category_brief("Representa stream de string");
         ctg.set_color("#FF0000");
-        bt.change(ctg,Sql.update_ctg);
+        bt.change(ctg,Sql.delete_ctg);
         
-        /*
+        
         Types type= new Types();
         type.set_name("int");
         type.set_category_name("Numeric");
@@ -32,7 +32,6 @@ public class Main{
         double[] ext={-2147483648,2147483647};
         type.set_extension(ext);
         
-        bt.insert(type);
-        */
+        bt.change(type,Sql.delete_type); 
     }
 }

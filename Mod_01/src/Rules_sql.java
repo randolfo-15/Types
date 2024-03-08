@@ -10,10 +10,12 @@
 
 
 enum Sql{
-    insert_ctg,   //< Key:inserir uma nova categoria no banco de dados.
-    insert_type,  //< Key:inserir um novo tipo no banco de dados.
-    update_ctg,   //< Key:Update em uma categoria
-    update_type;  //< Key:Update em um tipo.
+    insert_ctg,   // ctg  = Category
+    insert_type,  // type = Tipo
+    update_ctg,    
+    update_type,                
+    delete_ctg,    
+    delete_type;   
 
-    public static int size=4; //< Número de instruções.
+    public static int size=6; //< Número de instruções.
 }
