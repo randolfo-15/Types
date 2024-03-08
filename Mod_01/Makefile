@@ -3,8 +3,8 @@
 
 # Files
 # -----
-files = ./src/*.java#--------------<> Sources java 
-root = $(shell pwd)#---------------------<> Fouder root
+files = ./src/*.java#------------------------<> Sources java 
+root = $(shell pwd)#-------------------------<> Fouder root
 
 # Drive
 # -----
@@ -30,4 +30,4 @@ clear:
 # Execute 
 # -------
 run:
-	java -cp ".:$(Api):$(Provd):$(Jdbc)" Main "jdbc:sqlite:$(root)/sql/data.db" "$(root)/sql/querys.sqlite"
+	java -cp ".:$(Api):$(Provd):$(Jdbc)" Main "jdbc:sqlite:$(root)/sql/data.db" "$(root)/sql/querys.sql"

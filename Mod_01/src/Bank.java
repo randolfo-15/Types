@@ -14,34 +14,45 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 public class Bank{
 // Fields
 // ======
-    protected Connection        cnt = null;    
-    protected Statement         stt = null;
-    protected PreparedStatement pstt= null;
+    private Connection        cnt  = null;    
+    private Statement         stt  = null;
 
 // Build
 // =====
-    public Bank(String url){ connect(url); }
+    Bank(String url){ connect(url); }
 
 // Connection
 // ==========
-    private void connect(String url){
+    private 
+    void connect(String url){
         try{ 
             cnt=DriverManager.getConnection(url);
             stt=cnt.createStatement();            
         } 
-        catch(SQLException bug){ msg_erro(bug);   }
+        catch(SQLException e){ msg(e);   }
     }
 
-    public void disconnet(){
+    void disconnet(){
         try{ if(cnt != null) cnt.close();       }
-        catch(SQLException bug){ msg_erro(bug); }
+        catch(SQLException e){ msg(e); }
     }
     
-    protected void msg_erro(SQLException bug){ System.err.println(bug);}
-    protected void msg_erro(IOException bug){  System.err.println(bug);}
- 
+    
+    protected void msg(SQLException e){ System.err.println(e);}
+    protected void msg(IOException e){  System.err.println(e);}
+
+    protected
+    PreparedStatement Pstt(String sql){
+        try{ return cnt.prepareStatement(sql); }catch(SQLException e){msg(e); return null; }
+    }
+    
+    protected
+    ResultSet Rstt(String sql){
+        try{ return stt.executeQuery(sql); }catch(SQLException e){msg(e); return null; }
+    }
 }
