@@ -22,7 +22,7 @@ public class Bank{
 
 // Build
 // =====
-    Bank(String url){ connect(url); }
+    Bank(String url){ connect("jdbc:sqlite:"+url+"/sql/data.db"); }
 
 // Connection
 // ==========

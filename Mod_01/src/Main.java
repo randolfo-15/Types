@@ -1,4 +1,4 @@
-/**
+/*!*********************************************************
  *  Main 
  * ======
  * @author: Randolfo
@@ -6,36 +6,14 @@
  * @file:   Main.java 
  *
  * Classe dedicada para chamada e gestão do programa.
-*/
+************************************************************/
 
 
 public class Main{
 
     public static void main(String[] argv){
-         
-        Bank_Types bt=new Bank_Types(argv[0],argv[1]);
-         
-        Category ctg= new Category();
-        /*
-        ctg.set_category_name("Text");
-        ctg.set_category_brief("Representa stream de string");
-        ctg.set_color("#FF0000");
-        */
-        ctg.set_category_name("Text");
-        bt.select(ctg);
-        System.out.println(
-            ctg.get_category_name()+"\n"+
-            ctg.get_category_brief()+"\n"+
-            ctg.get_color()+"\n"
-        );
-        Types type= new Types();
-        type.set_name("int");
-        type.set_category_name("Numeric");
-        type.set_icon("../images/icon/int.png");
-        type.set_size((byte)1);
-        type.set_example("int x = 1;");
-        double[] ext={-2147483648,2147483647};
-        type.set_extension(ext);
+        Gui wd =new Gui(argv[0]);
+        wd.show();
         
     }
 }

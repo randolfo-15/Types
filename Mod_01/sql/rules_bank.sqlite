@@ -5,7 +5,7 @@ BEGIN TRANSACTION;
 -- Cria a tabela de Categorias
 -- ===========================
 CREATE TABLE Categories(
-    _id    INTEGER PRIMARY KEY AUTOINCREMENT, 
+    _id    INTEGER PRIMARY KEY AUTOINCREMENT,
     _name  VARCHAR(60) NOT NULL UNIQUE,
     _brief TEXT DEFAULT "...",
     _color VARCHAR(7) DEFAULT "#000000"

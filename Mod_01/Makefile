@@ -30,4 +30,4 @@ clear:
 # Execute 
 # -------
 run:
-	java -cp ".:$(Api):$(Provd):$(Jdbc)" Main "jdbc:sqlite:$(root)/sql/data.db" "$(root)/sql/querys.sql"
+	java -cp ".:$(Api):$(Provd):$(Jdbc)" Main "$(root)"
