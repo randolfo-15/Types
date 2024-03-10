@@ -7,7 +7,6 @@
  *
  * Classe dedicada para operações CRUD no banco de dados:
 *******************************************************************/
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -77,7 +76,20 @@ public class Bank_Types extends Bank{
 
         }catch(SQLException sql){msg(sql);}
     }
-   
+
+    void select_ALL(List<Category> list){
+        try{
+            ResultSet rset=stt.executeQuery("SELECT * FROM Categories");
+            Category ctg = new Category();
+            while(rset.next()){
+                    ctg.set_color(rset.getString("_color"));
+                    ctg.set_category_name(rset.getString("_name"));    
+                    ctg.set_category_brief(rset.getString("_brief"));               
+                list.add(ctg);
+            } 
+        }catch(SQLException e){msg(e);}
+    }
+
     //  Types 
     // =======
     
@@ -96,8 +108,7 @@ public class Bank_Types extends Bank{
              pstt.setString(3,type.get_icon());
              pstt.setString(4,type.get_example());
              pstt.setByte(5,type.get_size());
-             pstt.setDouble(6,type.get_extension()[0]);
-             pstt.setDouble(7,type.get_extension()[1]);
+             pstt.setString(6,type.get_extension());
              pstt.executeUpdate();
         
         }catch(SQLException e){msg(e);}
@@ -110,9 +121,8 @@ public class Bank_Types extends Bank{
              pstt.setString(3,type.get_icon());
              pstt.setString(4,type.get_example());
              pstt.setByte(5,type.get_size());
-             pstt.setDouble(6,type.get_extension()[0]);
-             pstt.setDouble(7,type.get_extension()[1]);
-             pstt.setString(8,type.get_name()); 
+             pstt.setString(6,type.get_extension());
+             pstt.setString(7,type.get_name()); 
              pstt.executeUpdate();
         
         }catch(SQLException e){msg(e);}
@@ -127,98 +137,27 @@ public class Bank_Types extends Bank{
              type.set_icon(rset.getString("_icon"));
              type.set_example(rset.getString("_exemple"));
              type.set_size(rset.getByte("_size"));
-             type.set_extension(new double[]{rset.getDouble("_min"),rset.getDouble("_max")});
+             type.set_extension(rset.getString("_extension"));
 
         }catch(SQLException sql){msg(sql);}
     }
 
-    void select_ALL(List<Category> list){
-        try{
-            ResultSet rset=stt.executeQuery("SELECT * FROM Categories");
-            Category ctg = new Category();
-            while(rset.next()){
-                    ctg.set_color(rset.getString("_color"));
-                    ctg.set_category_name(rset.getString("_name"));    
-                    ctg.set_category_brief(rset.getString("_brief"));               
-                list.add(ctg);
-            } 
-        }catch(SQLException e){msg(e);}
-    }
+
 
     void select_all(List<Types> list){
         try{
             ResultSet rset=stt.executeQuery("SELECT * FROM Kinds");
-            Types type = new Types();
             while(rset.next()){
+                Types type = new Types();
                 type.set_name(rset.getString("_name"));
                 type.set_category_name(rset.getString("_name_ctg"));
                 type.set_icon(rset.getString("_icon"));
                 type.set_example(rset.getString("_exemple"));
                 type.set_size(rset.getByte("_size"));
-                type.set_extension(new double[]{rset.getDouble("_min"),rset.getDouble("_max")});
+                type.set_extension(rset.getString("_extension"));
 
                 list.add(type);
             } 
         }catch(SQLException e){msg(e);}
     }
-
-
-
-
-
-
-/*
-
-    //! Insert or Update Category
-    void change(Category ctg,Sql rule){
-        try{
-            pstt=cnt.prepareStatement(query.get(rule));
-            
-            pstt.setString(1,ctg.get_category_name());    
-
-            if(rule==Sql.delete_ctg){ pstt.executeUpdate(); return; } 
-            
-            pstt.setString(2,ctg.get_category_brief());
-            pstt.setString(3,ctg.get_color());
-            
-            if(rule==Sql.update_ctg) pstt.setString(4,ctg.get_category_name()); 
-            pstt.executeUpdate();                        
-
-        }catch(SQLException e){msg(e);}
-
-    }
-
-    //! Insert or Update Types
-    public void change(Types type,Sql rule){
-        try{
-            pstt=cnt.prepareStatement(query.get(rule));
-
-            pstt.setString(1,type.get_name());
-            
-            if(rule==Sql.delete_type){ pstt.executeUpdate(); return; } 
-            
-            pstt.setString(2,type.get_category_name());
-            pstt.setString(3,type.get_icon());
-            pstt.setString(4,type.get_example());
-            pstt.setByte(5,type.get_size());
-            pstt.setDouble(6,type.get_extension()[0]);
-            pstt.setDouble(7,type.get_extension()[1]);
-
-            if(rule==Sql.update_type) pstt.setString(8,type.get_name()); 
-            pstt.executeUpdate();
-
-        }catch(SQLException e){msg(e);}
-
-    }
-    //! Select to Category
-    Category get_ctg(String name){
-        try{
-            rset=stt.executeQuery(query.get(Sql.select_ctg));
-        }catch(SQLException e){msg(e);}
-        return null;
-    }
-
-    //! Select to Types
-    Types get_type(){ return null; }
-    */
 } 

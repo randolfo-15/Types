@@ -19,7 +19,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
-
 public class Gui{
 //  Fields
 // ========
@@ -28,7 +27,7 @@ public class Gui{
     private JMenuBar    mbar  = new JMenuBar();         //< Menu Bar
     private String images="",
                    root="";                           
-    private JPanel pn1 = new JPanel();                  //< Primeiro panel
+    private JPanel panel = new JPanel();                  //< Primeiro panel
     private Bank_Types bank=null;
     private List<Types> types=new ArrayList<Types>();
     private List<JButton> buttons=new ArrayList<JButton>();
@@ -68,22 +67,23 @@ public class Gui{
 // Desenhar Botões
 // ===============
     void draw_buttons(){
-        for(var type:types) buttons.add(new JButton(type.get_name()));
-        for(var button:buttons){
-            //button.setBorderPainted(false);
-            button.setBackground(Color.DARK_GRAY);
-            button.setIcon(new ImageIcon(images+"icon/int.png"));
-            pn1.add(button);
+        for(var type:types){
+            JButton button =new JButton(new ImageIcon(images+type.get_icon()));
+            System.out.println(type.get_icon());
+            button.setOpaque(false);
+            button.setContentAreaFilled(false);
+            button.setBorderPainted(false);            
+            panel.add(button);   
         }
     }
 
 // Aparência da janela
 // ===================
     void set_windown(){
-       wd.setSize(800, 600);                               //< Proportion Wd
-       wd.setIconImage(new ImageIcon(images+"icon/int.png").getImage());
-       pn1.setBackground(Color.DARK_GRAY);
-       wd.add(pn1);
+       wd.setSize(600, 600);                               
+       wd.setIconImage(new ImageIcon(images+"frame/int.png").getImage());
+       panel.setBackground(Color.DARK_GRAY);
+       wd.add(panel);
     }
 
 //      Menu

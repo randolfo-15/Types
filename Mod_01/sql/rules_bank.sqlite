@@ -14,14 +14,13 @@ CREATE TABLE Categories(
 -- Cria a tabela de tipos
 -- =======================
 CREATE TABLE Kinds(
-    _id       INTEGER PRIMARY KEY AUTOINCREMENT,
-    _name     VARCHAR(60) NOT NULL UNIQUE,
-    _name_ctg VARCHAR(60) NOT NULL,
-    _icon     VARCHAR(700),
-    _exemple  TEXT DEFAULT "...",
-    _size     INT    NOT NULL, 
-    _min      DOUBLE NOT NULL,
-    _max      DOUBLE NOT NULL,
+    _id        INTEGER PRIMARY KEY AUTOINCREMENT,
+    _name      VARCHAR(60) NOT NULL UNIQUE,
+    _name_ctg  VARCHAR(60) NOT NULL,
+    _icon      VARCHAR(700),
+    _exemple   TEXT DEFAULT "...",
+    _size      INT    NOT NULL, 
+    _extension VARCHAR(500),
     FOREIGN KEY (_name_ctg) REFERENCES Categories (_name)
 );
 
