@@ -19,6 +19,11 @@ public class Types extends Category{
    
    private String extension = ""; 
 
+   // Builds 
+   // ======
+   public Types(){}
+   public Types(String name){ this.name=name; }
+
    // Setting
    // =======
    public void set_size(byte size)               { this.size=size;           }

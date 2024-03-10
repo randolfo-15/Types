@@ -11,9 +11,5 @@
 
 public class Main{
 
-    public static void main(String[] argv){
-        Gui wd =new Gui(argv[0]);
-        wd.show();
-        
-    }
+    public static void main(String[] argv){ new Gui(argv[0]).show(); }
 }
