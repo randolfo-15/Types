@@ -17,7 +17,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-
+import java.awt.event.*;
 
 public class Gui {
 //  Fields
@@ -56,8 +56,8 @@ public class Gui {
 
 //---------------------------------> Plug <----------------------------------
     void plug_components(){
-       wd.add(main_panel);
        wd.add(data_panel);
+       wd.add(main_panel);
        wd.setJMenuBar(mbar);
     }
 //---------------------------------> Bank <----------------------------------
@@ -79,6 +79,9 @@ public class Gui {
     void draw_buttons(String path){
         for(var type:types){
             JButton button =new JButton(new ImageIcon(path+type.get_icon()));  
+            button.addActionListener(new ActionListener(){
+               public void actionPerformed(ActionEvent e) { data(type);}
+            }); 
             button.setOpaque(false);
             button.setContentAreaFilled(false);
             button.setBorderPainted(false);            
@@ -94,9 +97,8 @@ public class Gui {
        wd.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  
        
        // Panel:
-       data_panel.setVisible(false);
        data_panel.setBackground(Color.YELLOW);
-       main_panel.setBackground(Color.DARK_GRAY);
+       main_panel.setBackground(Color.GRAY);
     }
 
 // Define menus: 
@@ -122,8 +124,6 @@ public class Gui {
         data_panel.setVisible(true);
         
     }
-    class button_byte{
-        
-    }  
+      
 }
 
