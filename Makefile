@@ -20,14 +20,14 @@ all: Program
 # Build
 # -----
 Program: $(files)
-	javac -d .  $(files); \
+	javac -d ./bin $(files);
 
 # clear
 # -----
 clear:
-	rm *.class
+	rm ./bin/*.class
 
 # Execute 
 # -------
 run:
-	java -cp ".:$(Api):$(Provd):$(Jdbc)" Main "$(root)"
+	java -cp ".:$(Api):$(Provd):$(Jdbc):bin/" Main "$(root)"
