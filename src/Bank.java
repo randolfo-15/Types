@@ -22,17 +22,16 @@ public class Bank{
 
 // Build
 // =====
-    Bank(String url){ connect("jdbc:sqlite:"+url+"/sql/data.db"); }
+    Bank(){}
+    Bank(String url){ _connect(format(url)); }
 
 // Connection
-// ==========
-    private 
-    void connect(String url){
-        try{ 
-            cnt=DriverManager.getConnection(url);
-            stt=cnt.createStatement();            
-        } 
-        catch(SQLException e){ msg(e);   }
+// ========== 
+    protected
+    void _connect(String url){
+        try{ cnt=DriverManager.getConnection(url);
+             stt=cnt.createStatement();
+        }catch(SQLException e){ msg(e);  }
     }
 
     void disconnet(){
@@ -43,4 +42,6 @@ public class Bank{
     
     protected void msg(SQLException e){ System.err.println(e);}
     protected void msg(IOException e){  System.err.println(e);}
+    
+    protected String format(String url){ return "jdbc:sqlite:"+url+"/sql/data.db"; }
 }

@@ -27,18 +27,19 @@ public class Bank_Types extends Bank{
     void init(List<String> line,int i){ while(++i<Sql.size)query.put(Sql.values()[i],line.get(i));} 
     
     //! Build Class Bank_Types:
+    Bank_Types(){}
     Bank_Types(String path){ 
         super(path); 
         try{init(Files.readAllLines(Paths.get(path+"/sql/querys.sql")),-1);} 
         catch(IOException e){msg(e);}
     } 
-    
+
     //  Category 
     // ==========
     
-    void delete(Category ctg){ 
+    void delete_ctg(String name){ 
         try{ PreparedStatement pstt=cnt.prepareStatement(query.get(Sql.C_DELETE));
-             pstt.setString(1,ctg.get_category_name());        
+             pstt.setString(1,name);        
              pstt.executeUpdate();
         
         }catch(SQLException e){msg(e);}  
@@ -65,16 +66,18 @@ public class Bank_Types extends Bank{
         }catch(SQLException e){msg(e);}
     }
 
-    void select(Category ctg){ 
+    Category select_ctg(String name){ 
+        Category ctg=new Category();
         try{ 
              PreparedStatement pstt = cnt.prepareStatement(query.get(Sql.C_SELECT));
-             pstt.setString(1,ctg.get_category_name());
+             pstt.setString(1,name);
              ResultSet rset=pstt.executeQuery();
              ctg.set_color(rset.getString("_color"));
              ctg.set_category_name(rset.getString("_name"));    
              ctg.set_category_brief(rset.getString("_brief"));
 
         }catch(SQLException sql){msg(sql);}
+        return ctg;
     }
 
     void select_ALL(List<Category> list){
@@ -93,9 +96,9 @@ public class Bank_Types extends Bank{
     //  Types 
     // =======
     
-    void delete(Types type){ 
+    void delete(String name){ 
         try{ PreparedStatement pstt=cnt.prepareStatement(query.get(Sql.T_DELETE));
-             pstt.setString(1,type.get_name());        
+             pstt.setString(1,name);        
              pstt.executeUpdate();
         
         }catch(SQLException e){msg(e);}  
@@ -128,9 +131,13 @@ public class Bank_Types extends Bank{
         }catch(SQLException e){msg(e);}
     }
 
-    void select(Types type){ 
-        try{ PreparedStatement pstt=cnt.prepareStatement(query.get(Sql.T_SELECT));
-             pstt.setString(1,type.get_name()); 
+    Types select(String name){ 
+        Types type =new Types();
+        
+        try{ 
+            
+             PreparedStatement pstt=cnt.prepareStatement(query.get(Sql.T_SELECT));
+             pstt.setString(1,name); 
              ResultSet rset=pstt.executeQuery();
              type.set_name(rset.getString("_name"));
              type.set_category_name(rset.getString("_name_ctg"));
@@ -138,8 +145,10 @@ public class Bank_Types extends Bank{
              type.set_example(rset.getString("_exemple"));
              type.set_size(rset.getByte("_size"));
              type.set_extension(rset.getString("_extension"));
-
+            
         }catch(SQLException sql){msg(sql);}
+        
+        return type;
     }
 
 
@@ -160,4 +169,13 @@ public class Bank_Types extends Bank{
             } 
         }catch(SQLException e){msg(e);}
     }
+
+    Bank_Types connect(String url){ 
+        try{ init(Files.readAllLines(Paths.get(url+"/sql/querys.sql")),-1);
+             _connect(format(url));
+        
+        }catch(IOException e){msg(e);}
+        return this; 
+    } 
+    
 } 

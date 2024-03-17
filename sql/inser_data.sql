@@ -33,6 +33,6 @@ INSERT INTO Kinds (_name,_name_ctg,_icon,_exemple,_size,_extension) VALUES ('cha
 INSERT INTO Kinds (_name,_name_ctg,_icon,_exemple,_size,_extension) VALUES ('string','Text','type_string.png','String x="abc";',64,'<br> MIN=0 <br> MAX=179769313486231570E + 308');
 
 
-INSERT INTO Kinds (_name,_name_ctg,_icon,_exemple,_size,_extension) VALUES ('bool','Logic','type_bool.png','Boolean x=true;',1,'<br>MIN=0 <br> MAX=1');
+INSERT INTO Kinds (_name,_name_ctg,_icon,_exemple,_size,_extension) VALUES ('bool','Logic','type_bool.png','boolean x=true;',1,'<br>MIN=0 <br> MAX=1');
 
 
