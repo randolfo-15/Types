@@ -32,32 +32,35 @@ public class Gui {
         main=0,     //< Index panel main
         data=1,     //< Index panel data
         info=2,     //< Index panel info
-        layers=2;   //< N° de camadas
+        delt=3,     //< Index panel delete
+        pdel=1;     //< Buffer delete
 
 // Banco de dados:
-    private Bank_Types bank=new Bank_Types();                  //< Banco de dados
+    private Bank_Types  bank=new Bank_Types();                 //< Banco de dados
     private List<Types> types=new ArrayList<Types>();          //< Lista de tipos catalogados
 
 // Componentes:
     private JFrame wd= new JFrame();                                 //< Janela
     private List<JMenu>   menus     = new ArrayList<JMenu>();        //< Menus do JMenuBar
     private JMenuBar      mbar      = new JMenuBar();                //< Menu Bar   
-    private List<Btn> btns_main = new ArrayList<Btn>();
+    private List<Btn>     btns_main = new ArrayList<Btn>();
+    private JButton       left      = new JButton("Exit");
 
     JPanel[] panels={
         new JPanel(new FlowLayout()),      //< Main panel
         new JPanel(new BorderLayout()),    //< Data panel
-        new JPanel(new FlowLayout())       //< Info panel
+        new JPanel(new FlowLayout()),      //< Info panel
+        new JPanel(new FlowLayout())       //< Delete panel
     };
 
-    private CardLayout cards  = new CardLayout();
-    private Container  buff   = null;
-    private JLabel label = new JLabel(),
-                   icon  = new JLabel("          ");
+    private CardLayout   cards = new CardLayout();
+    private Container[]  buff  = {null,null};
+    private JLabel       label = new JLabel(),
+                         icon  = new JLabel("          ");
 
 // Menus:
     private String[] edit={"Edit","Create","Delete"},          //< Edição
-                     find={"Categoria","Nome"};                //< Busca
+                     find={"Category","Name"};                //< Busca
 
 //  Build
 // =======
@@ -78,9 +81,13 @@ public class Gui {
 
 //---------------------------------> Plug <----------------------------------
     void plug_components(){
-       // Buff
-       buff.add(panels[main]);
-       buff.add(panels[data]);
+       // buff -> Main
+       buff[main].add(panels[main]);
+       buff[main].add(panels[data]);
+
+       // buff -> Delete
+       //buff[pdel].add(panels[main]);
+       //buff[pdel].add(panels[delt]);
 
        // Panel -> Info:
        panels[info].add(icon);
@@ -88,6 +95,7 @@ public class Gui {
        
        // Panel -> Data:
        panels[data].add(panels[info],BorderLayout.CENTER); 
+       panels[data].add(left,BorderLayout.SOUTH);
        
        // Panel -> Main:
        for(var button:btns_main)panels[main].add(button);
@@ -106,9 +114,14 @@ public class Gui {
     }
    
     void create_container(){
-       buff= wd.getContentPane();    
-       buff.setLayout(cards);
+       // Main:
+       buff[main] = wd.getContentPane();    
+       buff[main].setLayout(cards);
+       // Delete: 
+       buff[pdel] = wd.getContentPane(); 
+       buff[pdel].setLayout(cards);
     }
+    
     void define_panels(){ for(var panel: panels) panel.setBackground(Color.DARK_GRAY); }
     
     void define_frame(String path){
@@ -150,9 +163,8 @@ public class Gui {
     }
     
     void buttons_data_painel( String image){
-        JButton button = new JButton("Exit",new ImageIcon(image));  
-        button.addActionListener(new ActionListener(){public void actionPerformed(ActionEvent e){exit();}});
-        panels[data].add(button,BorderLayout.SOUTH);
+        left.setIcon(new ImageIcon(image));
+        left.addActionListener(new ActionListener(){public void actionPerformed(ActionEvent e){exit();}});
     }
 //---------------------------------> Events <----------------------------------
     void data(Types type,String path){
@@ -173,18 +185,41 @@ public class Gui {
         +"</html>");
         label.setFont(new Font("Serif", Font.BOLD, 18));
         icon.setIcon(new ImageIcon(path));
-        cards.next(buff);
+        cards.next(buff[main]);
     }
      
-    void exit(){ cards.next(buff); }
+    void exit(){ cards.next(buff[main]);}
+    
     void item_action(String tag){
         switch (tag){
-            case "Delete": delete_item("long"); break;
+            case "Delete": delete_item(panel_delt());   break;
+            case "Create": delete_item(panel_delt());   break;
+            case "Edit": delete_item(panel_delt());     break;
+            case "Name": delete_item(panel_delt());     break;
+            case "Category": delete_item(panel_delt()); break;
         }
     }
+    
     void delete_item(String name){
-        //bank.delete(name);
-        btns_main.removeIf(btn -> btn.my_name().equals(name));
+        bank.delete(name);
+        for(var btn: btns_main) if(btn.my_name().equals(name)){btn.setVisible(false);break;}
+    }
+
+    String panel_delt(){
+        cards.next(buff[main]);
+        return ""; 
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
