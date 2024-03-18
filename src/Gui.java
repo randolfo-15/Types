@@ -10,7 +10,6 @@
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,24 +18,22 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.*;
 import java.awt.CardLayout;
 import java.awt.Container;
 import java.awt.Font;
+import java.awt.LayoutManager;
 
 public class Gui {
 //  Fields
 // ========
     final int 
-        main=0,     /*! Idx panel main   */  data_info=0, /*! Label info*/
-        data=1,     /*! Idx panel data   */  data_icon=1, /*! Label icon*/
-        info=2,     /*! Index panel info */  delt_name=2, /*! Label name*/
-        delt=3,     /*! Index panel delt */
-        odel=4;     /*! Opções delete    */
+        main=0,     //< Index panel main
+        data=1,     //< Index panel data
+        info=2,     //< Index panel info
+        delt=3;     //< Index panel delete
 
 // Banco de dados:
     private Bank_Types  bank=new Bank_Types();                 //< Banco de dados
@@ -47,27 +44,23 @@ public class Gui {
     private List<JMenu>   menus     = new ArrayList<JMenu>();        //< Menus do JMenuBar
     private JMenuBar      mbar      = new JMenuBar();                //< Menu Bar   
     private List<Btn>     btns_main = new ArrayList<Btn>();
-    private JButton btn_del=new JButton("Delete");
-    
+
     JPanel[] panels={
         new JPanel(new FlowLayout()),      //< Main panel
         new JPanel(new BorderLayout()),    //< Data panel
         new JPanel(new FlowLayout()),      //< Info panel
-        new JPanel(new BorderLayout()),    //< Delete panel
-        new JPanel(new FlowLayout()),      //< Comp center delete
+        new JPanel(new BorderLayout())     //< Delete panel
     };
 
+    JPanel opts_delt = new JPanel();       // Opções da tela delete
 
     private CardLayout   cards = new CardLayout();
     private Container    buff  = null;
-    private JLabel[]     label = {
-        new JLabel(),   //< data_info
-        new JLabel(),   //< data_icon
-        new JLabel()    //< delt_name
-    };
+    private JLabel       label = new JLabel(),
+                         icon  = new JLabel("          ");
 
 // Menus:
-    private String[] edit={"Edit","Create","Delete"},         //< Edição
+    private String[] edit={"Edit","Create","Delete"},          //< Edição
                      find={"Category","Name"};                //< Busca
 
 //  Build
@@ -95,20 +88,15 @@ public class Gui {
        buff.add("delt",panels[delt]);
 
        // Panel -> Delete: 
-       panels[delt].add(panels[odel],BorderLayout.CENTER);
-       panels[delt].add(button_exit(path+"exit.png"),BorderLayout.SOUTH);
-
-       panels[odel].add(label[delt_name]); 
-       panels[odel].add(new JTextField()); 
-       panels[odel].add(btn_del); 
+       panels[delt].add(button_exit(path+"exit.png",factory_panel(new FlowLayout())),BorderLayout.SOUTH);
 
        // Panel -> Info:
-       panels[info].add(label[data_icon]);
-       panels[info].add(label[data_info]);
+       panels[info].add(icon);
+       panels[info].add(label);
        
        // Panel -> Data:
        panels[data].add(panels[info],BorderLayout.CENTER); 
-       panels[data].add(button_exit(path+"exit.png"),BorderLayout.SOUTH);
+       panels[data].add(button_exit(path+"exit.png",factory_panel(new FlowLayout())),BorderLayout.SOUTH);
        
        // Panel -> Main:
        for(var button:btns_main)panels[main].add(button);
@@ -127,6 +115,7 @@ public class Gui {
     }
    
     void create_container(){
+       // Main:
        buff = wd.getContentPane();    
        buff.setLayout(cards);
     }
@@ -162,20 +151,27 @@ public class Gui {
     void define_buttons(String path){for(var type:types)btns_main.add(create_btn_main(path+"types/",type));}
 
     Btn create_btn_main(String path,Types type){
-            Btn btn = Btn.create_btn(type.get_name(), path+type.get_icon());
+            Btn btn = Btn.create(type.get_name(), path+type.get_icon());
             btn.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e){data(type,path+type.get_icon());}}); 
             return btn;
     }
     
-    JButton button_exit( String image){
-        JButton btn = new JButton("Exit",new ImageIcon(image));
+    JPanel button_exit( String image,JPanel panel){
+        JButton btn = Btn.template("Exit",image,Color.GREEN);
         btn.addActionListener(new ActionListener(){public void actionPerformed(ActionEvent e){exit();}});
-        return btn;
+        panel.add(btn);
+        return panel;
+    }
+   
+    JPanel factory_panel(LayoutManager manager){ 
+        JPanel panel=new JPanel(manager);
+        panel.setBackground(Color.DARK_GRAY);
+        return panel;
     }
 //---------------------------------> Events <----------------------------------
     void data(Types type,String path){
-        label[data_info].setText(
+        label.setText(
         "<html>"
             +"<br><br>"
             +"<div style=\"color: white\">"
@@ -190,8 +186,8 @@ public class Gui {
                 +"</table>"
             +"</div>"
         +"</html>");
-        label[data_info].setFont(new Font("Serif", Font.BOLD, 18));
-        label[data_icon].setIcon(new ImageIcon(path));
+        label.setFont(new Font("Serif", Font.BOLD, 18));
+        icon.setIcon(new ImageIcon(path));
         cards.show(buff,"data");
     }
      

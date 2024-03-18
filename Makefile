@@ -31,3 +31,10 @@ clear:
 # -------
 run:
 	java -cp ".:$(Api):$(Provd):$(Jdbc):bin/" Main "$(root)"
+
+# Salve git 
+# --------- 
+git: 
+	git add *;\
+	git commit -m "...";\
+	git push

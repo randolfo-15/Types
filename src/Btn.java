@@ -8,8 +8,14 @@
  * Classe dedicada para Simular um botão
 *******************************************************************/
 
+import java.awt.Color;
+
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.border.Border;
+import javax.swing.plaf.DimensionUIResource;
+
 
 class Btn extends JButton{
     // Fields
@@ -25,10 +31,17 @@ class Btn extends JButton{
     // Methods
     // ======= 
     String my_name(){ return name; }
-    static Btn create_btn(String name,String image){
+    static Btn create(String name,String image){
         Btn btn =new Btn(name,image);
         btn.setContentAreaFilled(false);
         btn.setBorderPainted(false);
         return btn;
+    }
+
+    static JButton template(String name,String image,Color clr){
+        JButton btn = new JButton(name,new ImageIcon(image));
+        btn.setPreferredSize(new DimensionUIResource(150, 40));
+        btn.setBorder(BorderFactory.createLineBorder(clr,1));
+        return btn;     
     }
 }
