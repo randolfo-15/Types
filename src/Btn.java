@@ -44,4 +44,11 @@ class Btn extends JButton{
         btn.setBorder(BorderFactory.createLineBorder(clr,1));
         return btn;     
     }
+
+    static JButton template(String name,Color clr){
+        JButton btn = new JButton(name);
+        btn.setPreferredSize(new DimensionUIResource(150, 40));
+        btn.setBorder(BorderFactory.createLineBorder(clr,1));
+        return btn;     
+    } 
 }

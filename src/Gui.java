@@ -18,7 +18,9 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.FlowLayout;
 import java.awt.event.*;
 import java.awt.CardLayout;
@@ -30,10 +32,12 @@ public class Gui {
 //  Fields
 // ========
     final int 
-        main=0,     //< Index panel main
-        data=1,     //< Index panel data
-        info=2,     //< Index panel info
-        delt=3;     //< Index panel delete
+        main=0,     /*! Idx panel main */ qdlt=4, /*! Panel Quest Delete */
+        data=1,     /*! Idx panel data */
+        info=2,     /*! Idx panel info */
+        delt=3;     /*! Idx panel dlt  */
+// Item a ser deletado: 
+    protected String item_dlt="";
 
 // Banco de dados:
     private Bank_Types  bank=new Bank_Types();                 //< Banco de dados
@@ -49,7 +53,8 @@ public class Gui {
         new JPanel(new FlowLayout()),      //< Main panel
         new JPanel(new BorderLayout()),    //< Data panel
         new JPanel(new FlowLayout()),      //< Info panel
-        new JPanel(new BorderLayout())     //< Delete panel
+        new JPanel(new BorderLayout()),    //< Delete panel
+        new JPanel(new FlowLayout())                       //< Quest delete
     };
 
     JPanel opts_delt = new JPanel();       // Opções da tela delete
@@ -57,7 +62,8 @@ public class Gui {
     private CardLayout   cards = new CardLayout();
     private Container    buff  = null;
     private JLabel       label = new JLabel(),
-                         icon  = new JLabel("    ");
+                         icon  = new JLabel("  "),
+                         trash = new JLabel();
 
 // Menus:
     private String[] edit={"Edit","Create","Delete"},          //< Edição
@@ -67,9 +73,8 @@ public class Gui {
     private Color bg = Color.DARK_GRAY;
 
 // Graph panel:
-    Graph  graphs= null;
-// Font 
-    Font font=null;
+    Graph data_gp = null;
+
 //  Build
 // =======
     Gui(String path){ init(path); }
@@ -80,7 +85,6 @@ public class Gui {
        connect_bank(path);
        create_container();
        draw_windown(path+"/rec/");
-       font=Fonts.create(path+"/rec/font/font.ttf", 18);
        plug_components(path+"/rec/windown/");
     }
 
@@ -96,8 +100,9 @@ public class Gui {
        buff.add("delt",panels[delt]);
 
        // Panel -> Delete: 
+       panels[delt].add(panels[qdlt],BorderLayout.NORTH);
        panels[delt].add(button_exit(path+"exit.png",factory_panel(new FlowLayout(),bg)),BorderLayout.SOUTH);
-
+        
        // Panel -> Info:
        panels[info].add(icon);
        panels[info].add(label);
@@ -129,8 +134,9 @@ public class Gui {
     }
     
     void define_panels(String path){ 
-        for(var panel: panels) panel.setBackground(Color.DARK_GRAY);  
-        panels[info] = factory_panel(path+"note.jpg");
+        for(var panel: panels) panel.setBackground(Color.DARK_GRAY); 
+        panels[info]=factory_panel(path+"note.jpg");
+        panel_delt(path);
     }
     
     void define_frame(String path){
@@ -152,7 +158,7 @@ public class Gui {
         for(var tag:tags){ 
             JMenuItem item =new JMenuItem(tag);
             item.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e){item_action(tag);} 
+                public void actionPerformed(ActionEvent e){item_action(tag,path);} 
             });
             menu.add(item);
         }
@@ -162,10 +168,10 @@ public class Gui {
     void define_buttons(String path){for(var type:types)btns_main.add(create_btn_main(path+"types/",type));}
 
     Btn create_btn_main(String path,Types type){
-        Btn btn = Btn.create(type.get_name(), path+type.get_icon());
-        btn.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){data(type,path+type.get_icon());}}); 
-        return btn;
+            Btn btn = Btn.create(type.get_name(), path+type.get_icon());
+            btn.addActionListener(new ActionListener(){
+                public void actionPerformed(ActionEvent e){data(type,path+type.get_icon());}}); 
+            return btn;
     }
     
     JPanel button_exit( String image,JPanel panel){
@@ -200,7 +206,7 @@ public class Gui {
                 +"</table>"
             +"</div>"
         +"</html>");
-        //label.setFont(font);
+        
         label.setFont(new Font("Serif", Font.BOLD, 17));
         icon.setIcon(new ImageIcon(path));
         cards.show(buff,"data");
@@ -208,9 +214,11 @@ public class Gui {
      
     void exit(){ cards.show(buff,"main");}
     
-    void item_action(String tag){
+    void item_action(String tag, String path){
+        
+        trash.setIcon(new ImageIcon(path+"trash_fill.png"));
         switch (tag){
-            case "Delete": delete_item(panel_delt());   break;
+            case "Delete": { cards.show(buff,"delt"); } break;
             case "Create":{}break;
             case "Edit":{}break;
             case "Name":{};break;
@@ -218,14 +226,47 @@ public class Gui {
         }
     }
     
-    void delete_item(String name){
+    boolean delete_item(String name){
         bank.delete(name);
-        for(var btn: btns_main) if(btn.my_name().equals(name)){btn.setVisible(false);break;}
+        for(var btn: btns_main) 
+            if(btn.my_name().equals(name)){
+                btn.setVisible(false);
+                return true;
+            }
+        return false;
     }
 
-    String panel_delt(){
-        cards.show(buff,"delt");
-        return ""; 
+
+    JLabel create_Label(String text,int size){
+        JLabel label = new JLabel(
+        "<html>"
+            +"<div style=\"color: white\">"
+            +text
+            +"</div>"
+        +"</html>"
+        );
+        label.setFont(new Font("Serif", Font.BOLD,size));
+        return label;
+    }
+    
+    void panel_delt(String path){
+        JTextField field = new JTextField(20); 
+        JButton btn = new JButton("Delete");
+        btn.addActionListener( new ActionListener(){
+                public void actionPerformed(ActionEvent e){
+                        if(delete_item(field.getText()))
+                            trash.setIcon(new ImageIcon(path+"trash_empty.png"));
+                        field.setText("");
+                }
+            }
+        );
+        
+        panels[qdlt].add(create_Label("Search by name: ",17)); 
+        JPanel panel = factory_panel(new FlowLayout(),bg);
+        panel.add(trash);
+        panels[delt].add(panel,BorderLayout.CENTER);
+        panels[qdlt].add(field); 
+        panels[qdlt].add(btn); 
     }
 }
 
