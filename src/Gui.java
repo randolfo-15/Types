@@ -10,6 +10,7 @@
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,6 +19,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.*;
@@ -29,11 +32,11 @@ public class Gui {
 //  Fields
 // ========
     final int 
-        main=0,     //< Index panel main
-        data=1,     //< Index panel data
-        info=2,     //< Index panel info
-        delt=3,     //< Index panel delete
-        pdel=1;     //< Buffer delete
+        main=0,     /*! Idx panel main   */  data_info=0, /*! Label info*/
+        data=1,     /*! Idx panel data   */  data_icon=1, /*! Label icon*/
+        info=2,     /*! Index panel info */  delt_name=2, /*! Label name*/
+        delt=3,     /*! Index panel delt */
+        odel=4;     /*! Opções delete    */
 
 // Banco de dados:
     private Bank_Types  bank=new Bank_Types();                 //< Banco de dados
@@ -44,22 +47,27 @@ public class Gui {
     private List<JMenu>   menus     = new ArrayList<JMenu>();        //< Menus do JMenuBar
     private JMenuBar      mbar      = new JMenuBar();                //< Menu Bar   
     private List<Btn>     btns_main = new ArrayList<Btn>();
-    private JButton       left      = new JButton("Exit");
-
+    private JButton btn_del=new JButton("Delete");
+    
     JPanel[] panels={
         new JPanel(new FlowLayout()),      //< Main panel
         new JPanel(new BorderLayout()),    //< Data panel
         new JPanel(new FlowLayout()),      //< Info panel
-        new JPanel(new FlowLayout())       //< Delete panel
+        new JPanel(new BorderLayout()),    //< Delete panel
+        new JPanel(new FlowLayout()),      //< Comp center delete
     };
 
+
     private CardLayout   cards = new CardLayout();
-    private Container[]  buff  = {null,null};
-    private JLabel       label = new JLabel(),
-                         icon  = new JLabel("          ");
+    private Container    buff  = null;
+    private JLabel[]     label = {
+        new JLabel(),   //< data_info
+        new JLabel(),   //< data_icon
+        new JLabel()    //< delt_name
+    };
 
 // Menus:
-    private String[] edit={"Edit","Create","Delete"},          //< Edição
+    private String[] edit={"Edit","Create","Delete"},         //< Edição
                      find={"Category","Name"};                //< Busca
 
 //  Build
@@ -72,7 +80,7 @@ public class Gui {
        connect_bank(path);
        create_container();
        draw_windown(path+"/images/");
-       plug_components();
+       plug_components(path+"/images/windown/");
     }
 
 //  Exibir Janela
@@ -80,22 +88,27 @@ public class Gui {
     void show(){ wd.setVisible(true); }
 
 //---------------------------------> Plug <----------------------------------
-    void plug_components(){
-       // buff -> Main
-       buff[main].add(panels[main]);
-       buff[main].add(panels[data]);
+    void plug_components(String path){
+       // Buffer
+       buff.add("main",panels[main]);
+       buff.add("data",panels[data]);
+       buff.add("delt",panels[delt]);
 
-       // buff -> Delete
-       //buff[pdel].add(panels[main]);
-       //buff[pdel].add(panels[delt]);
+       // Panel -> Delete: 
+       panels[delt].add(panels[odel],BorderLayout.CENTER);
+       panels[delt].add(button_exit(path+"exit.png"),BorderLayout.SOUTH);
+
+       panels[odel].add(label[delt_name]); 
+       panels[odel].add(new JTextField()); 
+       panels[odel].add(btn_del); 
 
        // Panel -> Info:
-       panels[info].add(icon);
-       panels[info].add(label);
+       panels[info].add(label[data_icon]);
+       panels[info].add(label[data_info]);
        
        // Panel -> Data:
        panels[data].add(panels[info],BorderLayout.CENTER); 
-       panels[data].add(left,BorderLayout.SOUTH);
+       panels[data].add(button_exit(path+"exit.png"),BorderLayout.SOUTH);
        
        // Panel -> Main:
        for(var button:btns_main)panels[main].add(button);
@@ -114,12 +127,8 @@ public class Gui {
     }
    
     void create_container(){
-       // Main:
-       buff[main] = wd.getContentPane();    
-       buff[main].setLayout(cards);
-       // Delete: 
-       buff[pdel] = wd.getContentPane(); 
-       buff[pdel].setLayout(cards);
+       buff = wd.getContentPane();    
+       buff.setLayout(cards);
     }
     
     void define_panels(){ for(var panel: panels) panel.setBackground(Color.DARK_GRAY); }
@@ -150,10 +159,7 @@ public class Gui {
         return menu;
     }
 
-    void define_buttons(String path){
-        for(var type:types) btns_main.add(create_btn_main(path+"types/",type));
-        buttons_data_painel(path+"windown/exit.png");
-    }
+    void define_buttons(String path){for(var type:types)btns_main.add(create_btn_main(path+"types/",type));}
 
     Btn create_btn_main(String path,Types type){
             Btn btn = Btn.create_btn(type.get_name(), path+type.get_icon());
@@ -162,13 +168,14 @@ public class Gui {
             return btn;
     }
     
-    void buttons_data_painel( String image){
-        left.setIcon(new ImageIcon(image));
-        left.addActionListener(new ActionListener(){public void actionPerformed(ActionEvent e){exit();}});
+    JButton button_exit( String image){
+        JButton btn = new JButton("Exit",new ImageIcon(image));
+        btn.addActionListener(new ActionListener(){public void actionPerformed(ActionEvent e){exit();}});
+        return btn;
     }
 //---------------------------------> Events <----------------------------------
     void data(Types type,String path){
-        label.setText(
+        label[data_info].setText(
         "<html>"
             +"<br><br>"
             +"<div style=\"color: white\">"
@@ -183,20 +190,20 @@ public class Gui {
                 +"</table>"
             +"</div>"
         +"</html>");
-        label.setFont(new Font("Serif", Font.BOLD, 18));
-        icon.setIcon(new ImageIcon(path));
-        cards.next(buff[main]);
+        label[data_info].setFont(new Font("Serif", Font.BOLD, 18));
+        label[data_icon].setIcon(new ImageIcon(path));
+        cards.show(buff,"data");
     }
      
-    void exit(){ cards.next(buff[main]);}
+    void exit(){ cards.show(buff,"main");}
     
     void item_action(String tag){
         switch (tag){
             case "Delete": delete_item(panel_delt());   break;
-            case "Create": delete_item(panel_delt());   break;
-            case "Edit": delete_item(panel_delt());     break;
-            case "Name": delete_item(panel_delt());     break;
-            case "Category": delete_item(panel_delt()); break;
+            case "Create":{}break;
+            case "Edit":{}break;
+            case "Name":{};break;
+            case "Category":{} break;
         }
     }
     
@@ -206,7 +213,7 @@ public class Gui {
     }
 
     String panel_delt(){
-        cards.next(buff[main]);
+        cards.show(buff,"delt");
         return ""; 
     }
 }
