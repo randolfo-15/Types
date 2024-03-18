@@ -57,12 +57,19 @@ public class Gui {
     private CardLayout   cards = new CardLayout();
     private Container    buff  = null;
     private JLabel       label = new JLabel(),
-                         icon  = new JLabel("          ");
+                         icon  = new JLabel("    ");
 
 // Menus:
     private String[] edit={"Edit","Create","Delete"},          //< Edição
                      find={"Category","Name"};                //< Busca
 
+// BackGround:
+    private Color bg = Color.DARK_GRAY;
+
+// Graph panel:
+    Graph  graphs= null;
+// Font 
+    Font font=null;
 //  Build
 // =======
     Gui(String path){ init(path); }
@@ -72,8 +79,9 @@ public class Gui {
     void init(String path){
        connect_bank(path);
        create_container();
-       draw_windown(path+"/images/");
-       plug_components(path+"/images/windown/");
+       draw_windown(path+"/rec/");
+       font=Fonts.create(path+"/rec/font/font.ttf", 18);
+       plug_components(path+"/rec/windown/");
     }
 
 //  Exibir Janela
@@ -88,7 +96,7 @@ public class Gui {
        buff.add("delt",panels[delt]);
 
        // Panel -> Delete: 
-       panels[delt].add(button_exit(path+"exit.png",factory_panel(new FlowLayout())),BorderLayout.SOUTH);
+       panels[delt].add(button_exit(path+"exit.png",factory_panel(new FlowLayout(),bg)),BorderLayout.SOUTH);
 
        // Panel -> Info:
        panels[info].add(icon);
@@ -96,7 +104,7 @@ public class Gui {
        
        // Panel -> Data:
        panels[data].add(panels[info],BorderLayout.CENTER); 
-       panels[data].add(button_exit(path+"exit.png",factory_panel(new FlowLayout())),BorderLayout.SOUTH);
+       panels[data].add(button_exit(path+"exit.png",factory_panel(new FlowLayout(),bg)),BorderLayout.SOUTH);
        
        // Panel -> Main:
        for(var button:btns_main)panels[main].add(button);
@@ -108,7 +116,7 @@ public class Gui {
 // Definir diretorios:
 
     void draw_windown(String images){
-       define_panels();
+       define_panels(images+"windown/");
        define_frame(images+"windown/"); 
        define_menus(images+"windown/");
        define_buttons(images);
@@ -120,7 +128,10 @@ public class Gui {
        buff.setLayout(cards);
     }
     
-    void define_panels(){ for(var panel: panels) panel.setBackground(Color.DARK_GRAY); }
+    void define_panels(String path){ 
+        for(var panel: panels) panel.setBackground(Color.DARK_GRAY);  
+        panels[info] = factory_panel(path+"note.jpg");
+    }
     
     void define_frame(String path){
        wd.setJMenuBar(mbar);
@@ -151,10 +162,10 @@ public class Gui {
     void define_buttons(String path){for(var type:types)btns_main.add(create_btn_main(path+"types/",type));}
 
     Btn create_btn_main(String path,Types type){
-            Btn btn = Btn.create(type.get_name(), path+type.get_icon());
-            btn.addActionListener(new ActionListener(){
-                public void actionPerformed(ActionEvent e){data(type,path+type.get_icon());}}); 
-            return btn;
+        Btn btn = Btn.create(type.get_name(), path+type.get_icon());
+        btn.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){data(type,path+type.get_icon());}}); 
+        return btn;
     }
     
     JPanel button_exit( String image,JPanel panel){
@@ -164,17 +175,20 @@ public class Gui {
         return panel;
     }
    
-    JPanel factory_panel(LayoutManager manager){ 
+    JPanel factory_panel(LayoutManager manager,Color clr){ 
         JPanel panel=new JPanel(manager);
-        panel.setBackground(Color.DARK_GRAY);
+        panel.setBackground(clr);
         return panel;
     }
+    
+    Graph factory_panel(String image){ return new Graph(image); }
+
 //---------------------------------> Events <----------------------------------
     void data(Types type,String path){
         label.setText(
         "<html>"
             +"<br><br>"
-            +"<div style=\"color: white\">"
+            +"<div style=\"color: blue\">"
                 +"<table>"
                     +"<td>"
                     +"<tr><h1><u>"+type.get_name()+"</u></h1></tr>"
@@ -186,7 +200,8 @@ public class Gui {
                 +"</table>"
             +"</div>"
         +"</html>");
-        label.setFont(new Font("Serif", Font.BOLD, 18));
+        //label.setFont(font);
+        label.setFont(new Font("Serif", Font.BOLD, 17));
         icon.setIcon(new ImageIcon(path));
         cards.show(buff,"data");
     }
