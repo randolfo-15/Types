@@ -101,6 +101,9 @@ public class Gui {
 
        // Panel -> Delete: 
        panels[delt].add(panels[qdlt],BorderLayout.NORTH);
+       JPanel panel = factory_panel(new FlowLayout(),bg);
+       panel.add(trash);
+       panels[delt].add(panel,BorderLayout.CENTER);
        panels[delt].add(button_exit(path+"exit.png",factory_panel(new FlowLayout(),bg)),BorderLayout.SOUTH);
         
        // Panel -> Info:
@@ -251,20 +254,23 @@ public class Gui {
     
     void panel_delt(String path){
         JTextField field = new JTextField(20); 
+        field.addActionListener(new ActionListener(){
+                public void actionPerformed(ActionEvent e){
+                    trash.setIcon(new ImageIcon(path+"trash_fill.png"));
+                }
+        });
+
         JButton btn = new JButton("Delete");
         btn.addActionListener( new ActionListener(){
                 public void actionPerformed(ActionEvent e){
-                        if(delete_item(field.getText()))
-                            trash.setIcon(new ImageIcon(path+"trash_empty.png"));
-                        field.setText("");
+                    if(delete_item(field.getText()))
+                        trash.setIcon(new ImageIcon(path+"trash_empty.png"));
+                    field.setText("");
                 }
             }
         );
         
         panels[qdlt].add(create_Label("Search by name: ",17)); 
-        JPanel panel = factory_panel(new FlowLayout(),bg);
-        panel.add(trash);
-        panels[delt].add(panel,BorderLayout.CENTER);
         panels[qdlt].add(field); 
         panels[qdlt].add(btn); 
     }
