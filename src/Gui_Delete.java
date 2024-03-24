@@ -40,13 +40,13 @@ public class Gui_Delete extends JPanel{
 // Set panel
 // =========
     private void setting(){
-        setLayout(box);
-        setBackground(Gui_main.bg);
-        setBorder(BorderFactory.createLineBorder(Gui_main.fg));
+        setLayout(box);                 //< Setting layout
+        setBackground(Gui_main.bg);     //< Setting background
+        Gui_main.border("Trash", this); //< Setting border
     }
 
-// Define components
-// =================
+// Define components(Events)
+// =========================
 
     // Button:
     private JButton init_button(JButton btn,String path){ 

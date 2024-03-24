@@ -18,6 +18,9 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
+
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.*;
@@ -143,7 +146,7 @@ public class Gui_main {
     
     void define_frame(String path){
        wd.setJMenuBar(mbar);
-       wd.setSize(650, 600);                               
+       wd.setSize(630, 630);                               
        wd.setIconImage(new ImageIcon(path+"int.png").getImage());
        wd.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  
     }
@@ -206,6 +209,13 @@ public class Gui_main {
     // Espaço Vertical
     static Component space_Vtc(int n){ Component comp= Box.createVerticalStrut(n);
         return comp;
+    }
+
+    // Border default:
+    static void border(String title,JPanel panel){
+        TitledBorder bd=BorderFactory.createTitledBorder(title);
+        bd.setTitleColor(fg);
+        panel.setBorder(bd);
     }
 //---------------------------------> Events <----------------------------------
     void data(Types type,String path){
