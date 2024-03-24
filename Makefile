@@ -5,6 +5,8 @@
 # -----
 files = ./src/*.java#------------------------<> Sources java 
 root = $(shell pwd)#-------------------------<> Fouder root
+manifest= ./bin/MANIFEST.MF
+binary= ./bin/*
 
 # Drive
 # -----
@@ -38,3 +40,8 @@ git:
 	git add *;\
 	git commit -m "...";\
 	git push
+
+# Jar
+# ---
+jar:
+	jar cfm Types.jar $(manifest) $(binary)
