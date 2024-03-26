@@ -1,6 +1,17 @@
-import java.awt.event.*;
+/*!*********************************************************
+ *  Gui_Delete 
+ * ==============
+ * @author: Randolfo A Goncalves
+ * @since:  24/03/24
+ * @file:   Form.java 
+ *
+ * Classe dedicada para remoção por meio gráfico de types.
+************************************************************/
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
 import javax.swing.JTextField;
-import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -23,7 +34,7 @@ public class Gui_Delete extends JPanel{
         setting();
 
         // Block:
-        JPanel block = Gui_main.factory_panel();
+        JPanel block = Form.panel();
         block.add(Gui_main.create_Label("Search by name: ", 17));
         block.add(init_field(images));
         block.add(init_button(new JButton("Delete"),images));
@@ -34,14 +45,13 @@ public class Gui_Delete extends JPanel{
         add(Gui_main.space_Vtc(38));
         add(init_trash(images+"trash_fill.png"));
         add(Gui_main.space_Vtc(70));
-        add(Gui_main.button_exit(images+"exit.png",Gui_main.factory_panel()));
     }
 
 // Set panel
 // =========
     private void setting(){
         setLayout(box);                 //< Setting layout
-        setBackground(Gui_main.bg);     //< Setting background
+        setBackground(Form.bg);     //< Setting background
         Gui_main.border("Trash", this); //< Setting border
     }
 

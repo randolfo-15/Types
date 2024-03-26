@@ -64,7 +64,7 @@ public class Gui_main {
 
     JPanel opts_delt = new JPanel();       // Opções da tela delete
 
-    private static  CardLayout   cards = new CardLayout();
+    private static CardLayout   cards = new CardLayout();
     private static Container    buff  = null;
     private JLabel       label = new JLabel(),
                          icon  = new JLabel("  "),
@@ -72,11 +72,7 @@ public class Gui_main {
 
 // Menus:
     private String[] edit={"Edit","Create","Delete"},          //< Edição
-                     find={"Category","Name"};                //< Busca
-
-    public static Color bg = Color.DARK_GRAY, // Background
-                        fg = Color.WHITE;     // Foreground                                          
-    public static String word = "white";      // Foreground
+                     find={"Category","Name"};                 //< Busca
 
 // Graph panel:
     Graph data_gp = null;
@@ -114,10 +110,9 @@ public class Gui_main {
        
        // Panel -> Data:
        panels[data].add(panels[info],BorderLayout.CENTER); 
-       panels[data].add(button_exit(path+"door_open.png",factory_panel(new FlowLayout())),BorderLayout.SOUTH);
        
        // Panel -> Main:
-       panels[main].setBorder(BorderFactory.createLineBorder(fg));
+       panels[main].setBorder(BorderFactory.createLineBorder(Form.fg));
        for(var button:btns_main)panels[main].add(button);
     }
 //---------------------------------> Bank <----------------------------------
@@ -140,7 +135,7 @@ public class Gui_main {
     }
     
     void define_panels(String path){ 
-        for(var panel: panels) panel.setBackground(bg); 
+        for(var panel: panels) panel.setBackground(Form.bg); 
         panels[info]=factory_panel(path+"note.jpg");
     }
     
@@ -182,24 +177,9 @@ public class Gui_main {
             return btn;
     }
     
-    static JPanel button_exit( String image,JPanel panel){
-        Btn btn = Btn.create("", image);
-        btn.addActionListener(new ActionListener(){public void actionPerformed(ActionEvent e){exit();}});
-        panel.add(btn);
-        return panel;
-    }
-   
-    static JPanel factory_panel(LayoutManager manager){ 
-        JPanel panel=new JPanel(manager);
-        panel.setBackground(bg);
-        return panel;
-    }
 
-    static JPanel factory_panel(){ 
-        JPanel panel=new JPanel();
-        panel.setBackground(bg);
-        return panel;
-    }
+   
+
 
 
     Graph factory_panel(String image){ return new Graph(image); }
@@ -217,7 +197,7 @@ public class Gui_main {
     // Border default:
     static void border(String title,JPanel panel){
         TitledBorder bd=BorderFactory.createTitledBorder(title);
-        bd.setTitleColor(fg);
+        bd.setTitleColor(Form.fg);
         panel.setBorder(bd);
     }
 //---------------------------------> Events <----------------------------------
@@ -271,7 +251,7 @@ public class Gui_main {
     public static JLabel create_Label(String text,int size){
         JLabel label = new JLabel(
         "<html>"
-            +"<div style=\"color: "+word+"\">"
+            +"<div style=\"color: "+Form.clr+"\">"
             +text
             +"</div>"
         +"</html>"
@@ -282,16 +262,4 @@ public class Gui_main {
     
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
