@@ -18,8 +18,9 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
+import javax.swing.JSeparator;
 import javax.swing.border.TitledBorder;
+import javax.swing.plaf.IconUIResource;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -29,7 +30,6 @@ import java.awt.Container;
 import java.awt.Font;
 import java.awt.LayoutManager;
 import java.awt.Component;
-
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 
@@ -114,7 +114,7 @@ public class Gui_main {
        
        // Panel -> Data:
        panels[data].add(panels[info],BorderLayout.CENTER); 
-       panels[data].add(button_exit(path+"exit.png",factory_panel(new FlowLayout())),BorderLayout.SOUTH);
+       panels[data].add(button_exit(path+"door_open.png",factory_panel(new FlowLayout())),BorderLayout.SOUTH);
        
        // Panel -> Main:
        panels[main].setBorder(BorderFactory.createLineBorder(fg));
@@ -155,6 +155,9 @@ public class Gui_main {
     void define_menus(String path){
        menus.add(jmenu(path,new JMenu("Edit"),"edit.png",edit));
        menus.add(jmenu(path,new JMenu("Find"),"find.png",find));
+       JMenu disk = new JMenu();
+       disk.setIcon(new ImageIcon(path+"disk.png"));
+       menus.add(disk);
        for(var menu:menus) mbar.add(menu);
     }
 
@@ -180,7 +183,7 @@ public class Gui_main {
     }
     
     static JPanel button_exit( String image,JPanel panel){
-        JButton btn = Btn.template("Exit",image,bg);
+        Btn btn = Btn.create("", image);
         btn.addActionListener(new ActionListener(){public void actionPerformed(ActionEvent e){exit();}});
         panel.add(btn);
         return panel;
