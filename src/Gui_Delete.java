@@ -9,6 +9,7 @@
 ************************************************************/
 
 import java.awt.event.ActionListener;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import javax.swing.JTextField;
@@ -18,10 +19,9 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class Gui_Delete extends JPanel{
+public class Gui_Delete extends Form{
 // Fields
 // ======
-    private BoxLayout box = new BoxLayout(this,BoxLayout.Y_AXIS); //< Layout Default
     private JTextField txf =  new JTextField(20);                 //< Campo de escrita
     private JLabel trash = new JLabel();                          //< Icone da lixeira
     
@@ -31,29 +31,20 @@ public class Gui_Delete extends JPanel{
 
     //! Inicialização:
     private void init(String images){
-        setting();
 
         // Block:
-        JPanel block = Form.panel();
-        block.add(Gui_main.create_Label("Search by name: ", 17));
+        JPanel block = panel("Search by name");
         block.add(init_field(images));
         block.add(init_button(new JButton("Delete"),images));
        
         // Plugs:
-        add(Gui_main.space_Vtc(30));
-        add(block);
-        add(Gui_main.space_Vtc(38));
-        add(init_trash(images+"trash_fill.png"));
-        add(Gui_main.space_Vtc(70));
+        plug(space(VERTICAL,30)); 
+        plug(block);
+        plug(space(VERTICAL,68)); 
+        plug(init_trash(images+"trash_fill.png"));
+        plug(space(VERTICAL,40)); 
     }
 
-// Set panel
-// =========
-    private void setting(){
-        setLayout(box);                 //< Setting layout
-        setBackground(Form.bg);     //< Setting background
-        Gui_main.border("Trash", this); //< Setting border
-    }
 
 // Define components(Events)
 // =========================

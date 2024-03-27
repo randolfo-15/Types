@@ -7,7 +7,6 @@
  *
  * Classe dedicada para exibiçaão do programa.
 ************************************************************/
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ImageIcon;
@@ -18,22 +17,14 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
-import javax.swing.border.TitledBorder;
-import javax.swing.plaf.IconUIResource;
-
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.*;
 import java.awt.CardLayout;
 import java.awt.Container;
 import java.awt.Font;
-import java.awt.LayoutManager;
-import java.awt.Component;
-import javax.swing.BorderFactory;
-import javax.swing.Box;
 
-public class Gui_main {
+public class Gui_main extends Form {
 //  Fields
 // ========
     final int 
@@ -92,7 +83,7 @@ public class Gui_main {
 
 //  Exibir Janela
 // ===============
-    void show(){ wd.setVisible(true); }
+    public void start(){ wd.setVisible(true); }
 
 //---------------------------------> Plug <----------------------------------
     void plug_components(String path){
@@ -112,7 +103,6 @@ public class Gui_main {
        panels[data].add(panels[info],BorderLayout.CENTER); 
        
        // Panel -> Main:
-       panels[main].setBorder(BorderFactory.createLineBorder(Form.fg));
        for(var button:btns_main)panels[main].add(button);
     }
 //---------------------------------> Bank <----------------------------------
@@ -135,13 +125,13 @@ public class Gui_main {
     }
     
     void define_panels(String path){ 
-        for(var panel: panels) panel.setBackground(Form.bg); 
-        panels[info]=factory_panel(path+"note.jpg");
+        for(var panel: panels) panel.setBackground(bg); 
+        panels[info]=panel(path+"note.jpg",false);
     }
     
     void define_frame(String path){
        wd.setJMenuBar(mbar);
-       wd.setSize(630, 630);                               
+       wd.setSize(530, 590);                               
        wd.setIconImage(new ImageIcon(path+"int.png").getImage());
        wd.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  
     }
@@ -152,6 +142,7 @@ public class Gui_main {
        menus.add(jmenu(path,new JMenu("Find"),"find.png",find));
        JMenu disk = new JMenu();
        disk.setIcon(new ImageIcon(path+"disk.png"));
+       // Add action  
        menus.add(disk);
        for(var menu:menus) mbar.add(menu);
     }
@@ -176,30 +167,7 @@ public class Gui_main {
                 public void actionPerformed(ActionEvent e){data(type,path+type.get_icon());}}); 
             return btn;
     }
-    
 
-   
-
-
-
-    Graph factory_panel(String image){ return new Graph(image); }
-
-    // Espaço Horizontal
-    static Component space_Hrt(int n){ Component comp= Box.createHorizontalStrut(n);
-        return comp;
-    }
-
-    // Espaço Vertical
-    static Component space_Vtc(int n){ Component comp= Box.createVerticalStrut(n);
-        return comp;
-    }
-
-    // Border default:
-    static void border(String title,JPanel panel){
-        TitledBorder bd=BorderFactory.createTitledBorder(title);
-        bd.setTitleColor(Form.fg);
-        panel.setBorder(bd);
-    }
 //---------------------------------> Events <----------------------------------
     void data(Types type,String path){
         label.setText(
@@ -246,20 +214,6 @@ public class Gui_main {
             }
         return false;
     }
-
-
-    public static JLabel create_Label(String text,int size){
-        JLabel label = new JLabel(
-        "<html>"
-            +"<div style=\"color: "+Form.clr+"\">"
-            +text
-            +"</div>"
-        +"</html>"
-        );
-        label.setFont(new Font("Serif", Font.BOLD,size));
-        return label;
-    }
-    
 
 }
 

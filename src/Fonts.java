@@ -3,8 +3,10 @@ import java.awt.FontFormatException;
 import java.io.IOException;
 import java.io.File;
 
-public class Fonts {
-
+public class Fonts extends Font {
+    
+    Fonts(){ super("Serif",Font.BOLD,14); }
+    
     static Font create(String path,int size) {
 
         try { return Font.createFont(Font.TRUETYPE_FONT,new File(path)).deriveFont(size);} 

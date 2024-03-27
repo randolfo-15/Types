@@ -12,6 +12,6 @@
 public class Main{
 
     public static void main(String[] argv){ 
-        new Gui_main(argv[0]).show(); 
+        new Gui_main(argv[0]).start(); 
     }
 }
