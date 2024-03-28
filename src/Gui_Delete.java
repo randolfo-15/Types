@@ -33,10 +33,11 @@ public class Gui_Delete extends Form{
     private void init(String images){
 
         // Block:
-        JPanel block = panel("Search by name");
-        block.add(init_field(images));
-        block.add(init_button(new JButton("Delete"),images));
-       
+        //JPanel block = panel("Search by name");
+        //block.add(init_field(images));
+        //block.add(init_button(new JButton("Delete"),images));
+        Component[] list = { null,null };
+        JPanel block = box(list); 
         // Plugs:
         plug(space(VERTICAL,30)); 
         plug(block);

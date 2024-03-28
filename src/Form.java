@@ -87,4 +87,20 @@ public class Form extends JPanel{
     Component space(boolean position,int n){
         return (position)?Box.createVerticalStrut(n):Box.createHorizontalStrut(n); 
     }
+
+    //  Blocks
+    // --------
+    JPanel box(Component[] list){
+        JPanel block = panel(new BoxLayout(null,BoxLayout.Y_AXIS)),
+               pnl   = panel("");
+        // Fill panel:
+        for(var cmt: list) pnl.add(cmt);
+        
+        // Plug components
+        block.add(space(HORITZONTAL,20));
+        block.add(pnl);
+        block.add(space(HORITZONTAL,20));
+        
+        return block;
+    }
 }
