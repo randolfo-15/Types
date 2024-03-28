@@ -16,6 +16,7 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.LayoutManager;
+import java.util.function.Consumer;
 import java.awt.Component;
 import javax.swing.Box;
 
@@ -34,6 +35,7 @@ public class Form extends JPanel{
     final boolean 
         VERTICAL    = true,
         HORITZONTAL = false; 
+        Component sp = space(HORITZONTAL,10); //< Default separation
 
 //  Build
 // =======
@@ -90,17 +92,7 @@ public class Form extends JPanel{
 
     //  Blocks
     // --------
-    JPanel box(Component[] list){
-        JPanel block = panel(new BoxLayout(null,BoxLayout.Y_AXIS)),
-               pnl   = panel("");
-        // Fill panel:
-        for(var cmt: list) pnl.add(cmt);
-        
-        // Plug components
-        block.add(space(HORITZONTAL,20));
-        block.add(pnl);
-        block.add(space(HORITZONTAL,20));
-        
-        return block;
-    }
+    private JPanel fill(JPanel pnl,Component[] list){  for(var cmt:list) pnl.add(cmt); return pnl; }
+
+    JPanel box(String title,Component[] list){ return fill(panel(),new Component[]{sp,fill(panel(title),list),sp}); }
 }

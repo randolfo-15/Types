@@ -13,6 +13,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import javax.swing.JTextField;
+import java.awt.Component;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -31,16 +32,11 @@ public class Gui_Delete extends Form{
 
     //! Inicialização:
     private void init(String images){
-
-        // Block:
-        //JPanel block = panel("Search by name");
-        //block.add(init_field(images));
-        //block.add(init_button(new JButton("Delete"),images));
-        Component[] list = { null,null };
-        JPanel block = box(list); 
-        // Plugs:
         plug(space(VERTICAL,30)); 
-        plug(block);
+        plug(box("Search by name",new Component[]{
+            init_field(images),
+            init_button(new JButton("Delete"), images)
+        }));
         plug(space(VERTICAL,68)); 
         plug(init_trash(images+"trash_fill.png"));
         plug(space(VERTICAL,40)); 
