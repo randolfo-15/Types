@@ -5,8 +5,8 @@ import java.io.File;
 
 public class Fonts extends Font {
     
-    Fonts(){ super("Serif",Font.BOLD,14); }
-    
+    Fonts(){ super("Serif",Font.BOLD,16); }
+    Fonts(int size){ super("Serif",Font.BOLD,size); }    
     static Font create(String path,int size) {
 
         try { return Font.createFont(Font.TRUETYPE_FONT,new File(path)).deriveFont(size);} 

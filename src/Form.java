@@ -94,5 +94,7 @@ public class Form extends JPanel{
     // --------
     private JPanel fill(JPanel pnl,Component[] list){  for(var cmt:list) pnl.add(cmt); return pnl; }
 
-    JPanel box(String title,Component[] list){ return fill(panel(),new Component[]{sp,fill(panel(title),list),sp}); }
+    JPanel box(String title,Component[] list){ 
+        return fill(panel(),new Component[]{sp,fill(panel(title),list),sp}); 
+    }
 }
