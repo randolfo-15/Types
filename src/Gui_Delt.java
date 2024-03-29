@@ -3,24 +3,21 @@
  * ==============
  * @author: Randolfo A Goncalves
  * @since:  24/03/24
- * @file:   Form.java 
+ * @file:   Gui_Delete.java 
  *
  * Classe dedicada para remoção por meio gráfico de types.
 ************************************************************/
 
 import java.awt.event.ActionListener;
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import javax.swing.JTextField;
 import java.awt.Component;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 
-public class Gui_Delete extends Form{
+public class Gui_Delt extends Form{
 // Fields
 // ======
     private JTextField txf =  new JTextField(20);                 //< Campo de escrita
@@ -28,7 +25,7 @@ public class Gui_Delete extends Form{
     
 // Build
 // =====
-    Gui_Delete(String images){ init(images); }
+    Gui_Delt(String images){ init(images); }
 
     //! Inicialização:
     private void init(String images){

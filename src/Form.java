@@ -7,6 +7,7 @@
  *
  * Classe dedicada para padronização de recursos gui.
 ************************************************************/
+import java.awt.Graphics;
 import javax.swing.JPanel;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -16,7 +17,6 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.LayoutManager;
-import java.util.function.Consumer;
 import java.awt.Component;
 import javax.swing.Box;
 
@@ -32,29 +32,46 @@ public class Form extends JPanel{
     private BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS); 
 
     //! Positions
-    final boolean 
+    protected final boolean 
         VERTICAL    = true,
         HORITZONTAL = false; 
-        Component sp = space(HORITZONTAL,10); //< Default separation
+    protected Component sp = space(HORITZONTAL,10); //< Default separation
+    
+    //! Image
+    ImageIcon img=null; 
 
 //  Build
 // =======
-   Form()                  { init(layout); } //< Default layout
-   Form(LayoutManager mng) { init(mng);    } //< Custmized layout
-   
+   Form()                              { init(layout,null);  } //< Default layout
+   Form(LayoutManager mng)             { init(mng,null);     } //< Custmized layout
+   Form(String image)                  { init(layout,image); } 
+   Form(String image,LayoutManager mng){ init(mng,image);    } 
+
    //! Initialization
-   private void init(LayoutManager mng){
+   private void init(LayoutManager mng,String image){
+       if(image!=null) img = new ImageIcon(image);    
        setBorder(BorderFactory.createLineBorder(fg,1,true));
        setLayout(mng);
        setBackground(bg);
    }
+  
+   // Sobrecremos o método grafico da classe pai:
+   @Override
+   public void paintComponent(Graphics g){
+       if(img==null) return;
+       super.paintComponent(g);
+       g.drawImage(img.getImage(), 0, 0, this.getWidth(), this.getHeight(), this); 
+    }
+    
+   protected ImageIcon getImg()        { return this.img; } //< Getting Background
+   protected void setImg(ImageIcon img){ this.img = img;  } //< Setting Background
 
 //  Methods
 // =========
     // Position -> ( Posicinar elementos em tela )
     // --------
     void plug(Component cpm){ add(cpm); }
-
+    
     //  Panel
     // -------
     JPanel panel()                               { return factory(new JPanel(   ),false,"");    }

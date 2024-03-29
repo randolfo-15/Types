@@ -7,12 +7,12 @@
  *
  * Classe dedicada para exibiçaão do programa.
 ************************************************************/
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -22,7 +22,6 @@ import java.awt.FlowLayout;
 import java.awt.event.*;
 import java.awt.CardLayout;
 import java.awt.Container;
-import java.awt.Font;
 
 public class Gui_main extends Form {
 //  Fields
@@ -57,16 +56,11 @@ public class Gui_main extends Form {
 
     private static CardLayout   cards = new CardLayout();
     private static Container    buff  = null;
-    private JLabel       label = new JLabel(),
-                         icon  = new JLabel("  "),
-                         trash = new JLabel();
 
 // Menus:
     private String[] edit={"Edit","Create","Delete"},          //< Edição
                      find={"Category","Name"};                 //< Busca
 
-// Graph panel:
-    Graph data_gp = null;
 
 //  Build
 // =======
@@ -93,15 +87,11 @@ public class Gui_main extends Form {
        buff.add("delt",panels[delt]);
 
        // Panel -> Delete: 
-       panels[delt].add(new Gui_Delete(path));
-        
-       // Panel -> Info:
-       panels[info].add(icon);
-       panels[info].add(label);
+       panels[delt].add(new Gui_Delt(path));
        
-       // Panel -> Data:
-       panels[data].add(panels[info],BorderLayout.CENTER); 
-       
+       // Panel -> Information:
+       panels[data].add(new Gui_info(path+"note.jpg"));
+
        // Panel -> Main:
        for(var button:btns_main)panels[main].add(button);
     }
@@ -152,7 +142,7 @@ public class Gui_main extends Form {
         for(var tag:tags){ 
             JMenuItem item =new JMenuItem(tag);
             item.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e){item_action(tag,path);} 
+                public void actionPerformed(ActionEvent e){item_action(tag);} 
             });
             menu.add(item);
         }
@@ -164,38 +154,26 @@ public class Gui_main extends Form {
     Btn create_btn_main(String path,Types type){
             Btn btn = Btn.create(type.get_name(), path+type.get_icon());
             btn.addActionListener(new ActionListener(){
-                public void actionPerformed(ActionEvent e){data(type,path+type.get_icon());}}); 
+                public void actionPerformed(ActionEvent e){ Gui_info.get_data(type,path+type.get_icon());}}); 
             return btn;
     }
 
 //---------------------------------> Events <----------------------------------
-    void data(Types type,String path){
-        label.setText(
-        "<html>"
-            +"<br><br>"
-            +"<div style=\"color: blue\">"
-                +"<table>"
-                    +"<td>"
-                    +"<tr><h1><u>"+type.get_name()+"</u></h1></tr>"
-                    +"<tr>Category: "+type.get_category_name()+"</tr>"
-                    +"<tr>Ex: "+type.get_example()+"</tr>"
-                    +"<tr>Size: "+type.get_size()+"</tr>"
-                    +"<tr>Extension: "+type.get_extension()+"</tr>"
-                    +"</td>"
-                +"</table>"
-            +"</div>"
-        +"</html>");
-        
-        label.setFont(new Font("Serif", Font.BOLD, 17));
-        icon.setIcon(new ImageIcon(path));
-        cards.show(buff,"data");
-    }
-     
+ 
+    
+
+    //    -------
+    //    -------
+    //    -------
+    static void next(String local){ cards.show(buff,local); }
+    //    -------
+    //    -------
+    //    -------
+
+
     static void exit(){ cards.show(buff,"main");}
     
-    void item_action(String tag, String path){
-        
-        trash.setIcon(new ImageIcon(path+"trash_fill.png"));
+    void item_action(String tag){
         switch (tag){
             case "Delete": { cards.show(buff,"delt"); } break;
             case "Create":{}break;
