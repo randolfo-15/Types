@@ -111,7 +111,8 @@ public class Bank_Types extends Bank{
              pstt.setString(3,type.get_icon());
              pstt.setString(4,type.get_example());
              pstt.setByte(5,type.get_size());
-             pstt.setString(6,type.get_extension());
+             pstt.setString(6,type.get_min());
+             pstt.setString(7,type.get_max());
              pstt.executeUpdate();
         
         }catch(SQLException e){msg(e);}
@@ -124,8 +125,9 @@ public class Bank_Types extends Bank{
              pstt.setString(3,type.get_icon());
              pstt.setString(4,type.get_example());
              pstt.setByte(5,type.get_size());
-             pstt.setString(6,type.get_extension());
-             pstt.setString(7,type.get_name()); 
+             pstt.setString(6,type.get_min());
+             pstt.setString(7,type.get_max());
+             pstt.setString(8,type.get_name()); 
              pstt.executeUpdate();
         
         }catch(SQLException e){msg(e);}
@@ -144,7 +146,8 @@ public class Bank_Types extends Bank{
              type.set_icon(rset.getString("_icon"));
              type.set_example(rset.getString("_exemple"));
              type.set_size(rset.getByte("_size"));
-             type.set_extension(rset.getString("_extension"));
+             type.set_min(rset.getString("_min"));
+             type.set_max(rset.getString("_max"));
             
         }catch(SQLException sql){msg(sql);}
         
@@ -163,7 +166,8 @@ public class Bank_Types extends Bank{
                 type.set_icon(rset.getString("_icon"));
                 type.set_example(rset.getString("_exemple"));
                 type.set_size(rset.getByte("_size"));
-                type.set_extension(rset.getString("_extension"));
+                type.set_min(rset.getString("_min"));
+                type.set_max(rset.getString("_max"));
 
                 list.add(type);
             } 

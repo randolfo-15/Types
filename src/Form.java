@@ -18,6 +18,8 @@ import java.awt.Font;
 import java.awt.Color;
 import java.awt.LayoutManager;
 import java.awt.Component;
+import java.awt.Container;
+
 import javax.swing.Box;
 
 public class Form extends JPanel{

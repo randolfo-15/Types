@@ -72,7 +72,7 @@ public class Gui_main extends Form {
        connect_bank(path);
        create_container();
        draw_windown(path+"/rec/");
-       plug_components(path+"/rec/windown/");
+       plug_components(path+"/rec/");
     }
 
 //  Exibir Janela
@@ -87,10 +87,10 @@ public class Gui_main extends Form {
        buff.add("delt",panels[delt]);
 
        // Panel -> Delete: 
-       panels[delt].add(new Gui_Delt(path));
+       panels[delt].add(new Gui_Delt(path+"windown/"));
        
        // Panel -> Information:
-       panels[data].add(new Gui_info(path+"note.jpg"));
+       panels[data].add(new Gui_info(path));
 
        // Panel -> Main:
        for(var button:btns_main)panels[main].add(button);
