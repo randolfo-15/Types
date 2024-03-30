@@ -149,12 +149,12 @@ public class Gui_main extends Form {
         return menu;
     }
 
-    void define_buttons(String path){for(var type:types)btns_main.add(create_btn_main(path+"types/",type));}
+    void define_buttons(String path){for(var type:types)btns_main.add(create_btn_main(path,type));}
 
     Btn create_btn_main(String path,Types type){
-            Btn btn = Btn.create(type.get_name(), path+type.get_icon());
+            Btn btn = Btn.create(type.get_name(), path+"types/"+type.get_icon());
             btn.addActionListener(new ActionListener(){
-                public void actionPerformed(ActionEvent e){ Gui_info.get_data(type,path+type.get_icon());}}); 
+                public void actionPerformed(ActionEvent e){ Gui_info.get_data(type,path);}}); 
             return btn;
     }
 

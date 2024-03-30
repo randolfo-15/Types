@@ -9,22 +9,18 @@
 ************************************************************/
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-
 import java.awt.Font;
 import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.Container;
 
 public class Gui_info extends Form{
 //  Fields
 // ========
     private static final int n =8;
-    private static JLabel[]  inf  = new JLabel[n];      //< Information 
+    private static JLabel[]  inf  = new JLabel[n];       
     private static JLabel  icn  = new JLabel("                              ");    
-    private static Font    font = null;                 //< Font 
-                                                        //
+    private static Font    font = null;                  
+                                                        
 //  Build
 // =======
     Gui_info(String image){ 
@@ -53,7 +49,8 @@ public class Gui_info extends Form{
 // Getting data 
 // ============
     static void get_data(Types type,String path){
-        inf[0].setText("     _______________________ Dados ____");
+        Sound.play(path+"sound/writing.wav");
+        inf[0].setText("     ______________________ Dados ____");
         inf[1].setText("      # Name: "+type.get_name()+" ");
         inf[2].setText("      # Category: "+type.get_category_name()+" ");
         inf[3].setText("      # Ex: "+type.get_example()+" ");
@@ -61,7 +58,7 @@ public class Gui_info extends Form{
         inf[5].setText("      # Extension: ");
         inf[6].setText("          Min: "+type.get_min()+" ");
         inf[7].setText("          MAx: "+type.get_max()+" ");
-        icn.setIcon(new ImageIcon(path));
+        icn.setIcon(new ImageIcon(path+"types/"+type.get_icon()));
         Gui_main.next("data");
     }
 }
