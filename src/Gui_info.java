@@ -49,7 +49,7 @@ public class Gui_info extends Form{
 // Getting data 
 // ============
     static void get_data(Types type,String path){
-        Sound.play(path+"sound/writing.wav");
+        //Sound.play(path+"sound/writing.wav");
         inf[0].setText("     ______________________ Dados ____");
         inf[1].setText("      # Name: "+type.get_name()+" ");
         inf[2].setText("      # Category: "+type.get_category_name()+" ");

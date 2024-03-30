@@ -122,6 +122,7 @@ public class Gui_main extends Form {
     void define_frame(String path){
        wd.setJMenuBar(mbar);
        wd.setSize(530, 590);                               
+       wd.setResizable(false);
        wd.setIconImage(new ImageIcon(path+"int.png").getImage());
        wd.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  
     }
