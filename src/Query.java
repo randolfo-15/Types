@@ -30,8 +30,8 @@ public class Query extends Bank{
     //! Build Class Bank_Types:
     Query(){}
     Query(String path){ 
-        super(path); 
-        try{init(Files.readAllLines(Paths.get(path)),-1);} 
+        super(path+"data.db"); 
+        try{init(Files.readAllLines(Paths.get(path+"querys.sql")),-1);} 
         catch(IOException e){msg(e);}
     } 
 
@@ -92,11 +92,9 @@ public class Query extends Bank{
                     ctg.set_category_brief(rset.getString("_brief"));               
                 list.add(ctg);
             } 
-            disconnet(); 
             return list;
         }catch(SQLException e){
             msg(e); 
-            disconnet();
             return null;
         }
     }
@@ -104,13 +102,12 @@ public class Query extends Bank{
     //  Types 
     // =======
     
-    boolean delete(String name){ 
+    void delete(String name){ 
+        System.out.println(name);
         try{ PreparedStatement pstt=cnt.prepareStatement(query.get(Sql.T_DELETE));
              pstt.setString(1,name);        
-             return pstt.execute();
-        
+             pstt.executeUpdate();
         }catch(SQLException e){msg(e);}  
-        return false;
     }
     
     void insert(Types type){ 
@@ -181,11 +178,9 @@ public class Query extends Bank{
                 
                 list.add(type);
             } 
-            disconnet();
             return list;
         }catch(SQLException e){
             msg(e);
-            disconnet();
             return null;
         }
     }

@@ -18,7 +18,6 @@ import java.awt.Font;
 import java.awt.Color;
 import java.awt.LayoutManager;
 import java.awt.Component;
-import java.awt.Container;
 
 import javax.swing.Box;
 
@@ -86,7 +85,7 @@ public class Form extends JPanel{
     //! ( patterns ) - Fabrica de JPanel: 
     private JPanel factory(JPanel pnl,boolean bord,String title){
         pnl.setBackground(bg);
-        if(bord) pnl.setBorder(BorderFactory.createTitledBorder(null, title, 0, 0,new Fonts(), fg)); 
+        if(bord) pnl.setBorder(BorderFactory.createTitledBorder(null, title, 0, 0,Manager.font(22), fg)); 
         return pnl;
     } 
     

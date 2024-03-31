@@ -9,6 +9,7 @@
 ************************************************************/
 import java.awt.Container;
 import java.util.ArrayList;
+import java.util.List;
 import java.awt.event.*;
 import javax.swing.JFrame;
 import java.awt.CardLayout;
@@ -16,6 +17,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import java.awt.Font;
 
 public class Manager extends JFrame{
 //  Fields
@@ -24,15 +26,17 @@ public class Manager extends JFrame{
     private static CardLayout   cards  = new CardLayout();     //< Manager panel
     private static Query        query  = null;                 //< Memory             
     private JMenuBar mbar = new JMenuBar();                    //< Menu Bar   
-    
+
     // Paths:
-    private String   root = "",                                //< Path absolute.
-                     rec  = "";
+    static private String   
+        root = "",   //< Path absolute.
+        rec  = "";
+    
 // Build 
 // =====
     Manager(String path){ 
-        root=path;
-        rec =path+"rec/windown/"; 
+        root = path;
+        rec  = path+"rec/windown/"; 
         init(path); 
     }
 
@@ -45,7 +49,7 @@ public class Manager extends JFrame{
     }
 
     //! Startup bank
-    private void init_bank(){ query = new Query(root+"sql/data.db"); }
+    private void init_bank(){ query = new Query(root+"sql/"); }
 
     //! Startup Windown
     private void init_windown(){
@@ -72,6 +76,7 @@ public class Manager extends JFrame{
        mbar.add(edit()); 
        mbar.add(search());
     }
+
 
     //! Finish
     void finish(){
@@ -110,7 +115,7 @@ public class Manager extends JFrame{
     JMenu menu(String name){
         JMenu menu = new JMenu(name); 
         menu.setIcon(new ImageIcon(rec+name+".png")); 
-        menu.setFont(new Fonts(17));
+        menu.setFont(font(27));
         return menu;
     }
 
@@ -121,9 +126,12 @@ public class Manager extends JFrame{
            item.addActionListener(new ActionListener(){public void actionPerformed(ActionEvent e){finish();}});
         else 
            item.addActionListener(new ActionListener(){public void actionPerformed(ActionEvent e){next(local);}});
-        item.setFont(new Fonts(16));
+        item.setFont(font(20));
         return item;
     }
+
+    //! Font
+    static Font font(int size){ return Fonts.create(root+"rec/font/digtal.ttf", size); }
 
 //  Methods Move
 // ==============
@@ -134,9 +142,9 @@ public class Manager extends JFrame{
 // ========
     
     //! Get types
-    static ArrayList<Types> types(){return query.select_all();}
+    static List<Types> types(){return query.select_all();}
     
     //! Remove type
-    static boolean remove(String type){ return query.delete(type); }
+    static void remove(String type){ query.delete(type);; }
 }
 

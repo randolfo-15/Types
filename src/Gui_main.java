@@ -27,40 +27,32 @@ public class Gui_main extends Form {
 //  Fields
 // ========
     private String path_btn=""; //< Path buttons
-     
-    //! Class suport
-    class Btn extends JButton{
-        Types  type = null;
-        String icon = ""; 
-        
-        Btn(Types type){ 
-            this.type = type;
-            this.icon = path_btn+type.get_icon();
-            setIcon(new ImageIcon(icon)); 
-            setContentAreaFilled(false);
-            setBorderPainted(false);
-        }
-    }
+    private class Btn extends JButton{ String name; }
+    private static List<Btn> btns = new ArrayList<Btn>(); 
+
 
 //  Build
 // =======
     Gui_main(String root){ 
         super(new FlowLayout());
         path_btn=root+"rec/types/";
-        init_buttons(); 
-    }
-
-    //! Startup buttons
-    void init_buttons(){
-        for(var type: Manager.types()) plug(init_buttons(type)); 
+        Manager.types().forEach(type -> init_buttons(type));
     }
     
     //! Startup Buttons
-    Btn init_buttons(Types type){
-        Btn btn = new Btn(type);
+    void init_buttons(Types type){
+        Btn btn = new Btn();
+        btn.name=type.get_name();
+        btn.setIcon(new ImageIcon(path_btn+type.get_icon())); 
+        btn.setContentAreaFilled(false);
+        btn.setBorderPainted(false);
         btn.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){ Gui_info.get_data(btn.type,btn.icon);}}); 
-        return btn;
+            public void actionPerformed(ActionEvent e){ Gui_info.get_data(type);}}); 
+        btns.add(btn);
+        plug(btn);
     }
+
+    //! Remove button:
+    static void remove(String name){ btns.forEach(btn ->{ if(btn.name.equals(name)) btn.setVisible(false);}); }
 }
 

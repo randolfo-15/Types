@@ -16,26 +16,31 @@ import java.awt.Component;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 public class Gui_Delt extends Form{
 // Fields
 // ======
-    private JTextField txf =  new JTextField(20);                 //< Campo de escrita
-    private JLabel trash = new JLabel();                          //< Icone da lixeira
-    
+    private JTextField txf =  new JTextField(20); //< Campo de escrita
+    private JLabel trash   =  new JLabel();       //< Icone da lixeira
+    private String rec = "";    
+
 // Build
 // =====
-    Gui_Delt(String images){ init(images); }
+    Gui_Delt(String path){ 
+        rec = path+"rec/windown/";
+        init(); 
+    }
 
     //! Startup
-    private void init(String images){
+    private void init(){
         plug(space(VERTICAL,30)); 
         plug(box("Search by name",new Component[]{
-            init_field(images),
-            init_button(new JButton("Delete"), images)
+            init_field(),
+            init_button()
         }));
         plug(space(VERTICAL,68)); 
-        plug(init_trash(images+"trash_fill.png"));
+        plug(init_trash(rec+"trash_fill.png"));
         plug(space(VERTICAL,40)); 
     }
 
@@ -44,23 +49,24 @@ public class Gui_Delt extends Form{
 // =========================
 
     // Button:
-    private JButton init_button(JButton btn,String path){ 
-        btn.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-       //         if(Gui_main.delete_item(txf.getText()))
-       //             trash.setIcon(new ImageIcon(path+"trash_empty.png"));
-                txf.setText("");                       
-            }
-        });
+    private JButton init_button(){ 
+        JButton btn = new JButton("Delete");
+        btn.addActionListener(new ActionListener(){public void actionPerformed(ActionEvent e){
+            for(var type:Manager.types()) if(type.get_name().equals(txf.getText())){
+                trash.setIcon(new ImageIcon(rec+"trash_empty.png"));
+                Manager.remove(txf.getText());
+                Gui_main.remove(txf.getText());
+            }txf.setText("");
+        }});
         return btn; 
     }
 
     // Text field:
-    private JTextField init_field(String path){ 
+    private JTextField init_field(){ 
         txf.addKeyListener(new KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                if(trash.getIcon().toString().equals(path+"trash_empty.png")) 
-                    trash.setIcon(new ImageIcon(path+"trash_fill.png"));
+                if(trash.getIcon().toString().equals(rec+"trash_empty.png")) 
+                    trash.setIcon(new ImageIcon(rec+"trash_fill.png"));
             }
         });  
         return txf; 

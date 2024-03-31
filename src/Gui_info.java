@@ -21,12 +21,14 @@ public class Gui_info extends Form{
     private static JLabel  icn  = new JLabel("                              ");    
     private static Font    font = null;                 
     private JLabel[] sp =new JLabel[]{new JLabel(" "),new JLabel(" "),new JLabel(" ")};                                                 
+    private static String path_btn = "";
 
 //  Build
 // =======
-    Gui_info(String image){ 
-        super(image+"rec/windown/note.jpg"); 
-        init(image+"rec/");
+    Gui_info(String path){ 
+        super(path+"rec/windown/note.jpg"); 
+        path_btn=path+"rec/types/"; 
+        init(path+"rec/");
     }
     
     //! Startup
@@ -51,7 +53,7 @@ public class Gui_info extends Form{
 
 // Getting data 
 // ============
-    static void get_data(Types type,String icon){
+    static void get_data(Types type){
         //Sound.play(path+"sound/writing.wav");
         inf[4].setText("     ______________________ Dados ____");
         inf[5].setText("      # Name: "+type.get_name()+" ");
@@ -61,7 +63,7 @@ public class Gui_info extends Form{
         inf[9].setText("      # Extension: ");
         inf[10].setText("          Min: "+type.get_min()+" ");
         inf[11].setText("          MAx: "+type.get_max()+" ");
-        icn.setIcon(new ImageIcon(icon));
+        icn.setIcon(new ImageIcon(path_btn+type.get_icon()));
         Manager.next("INFO");
     }
 }
