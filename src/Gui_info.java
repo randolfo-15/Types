@@ -59,6 +59,6 @@ public class Gui_info extends Form{
         inf[6].setText("          Min: "+type.get_min()+" ");
         inf[7].setText("          MAx: "+type.get_max()+" ");
         icn.setIcon(new ImageIcon(path+"types/"+type.get_icon()));
-        Gui_main.next("data");
+        Manager.next("INFO");
     }
 }

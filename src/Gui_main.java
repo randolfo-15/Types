@@ -160,20 +160,7 @@ public class Gui_main extends Form {
     }
 
 //---------------------------------> Events <----------------------------------
- 
-    
 
-    //    -------
-    //    -------
-    //    -------
-    static void next(String local){ cards.show(buff,local); }
-    //    -------
-    //    -------
-    //    -------
-
-
-    static void exit(){ cards.show(buff,"main");}
-    
     void item_action(String tag){
         switch (tag){
             case "Delete": { cards.show(buff,"delt"); } break;
