@@ -26,9 +26,7 @@ import java.awt.Container;
 public class Gui_main extends Form {
 //  Fields
 // ========
-    // Path
-    private String path_btn="", //< Path buttons
-                   path_bkn=""; //< Path bank
+    private String path_btn=""; //< Path buttons
      
     //! Class suport
     class Btn extends JButton{
@@ -48,14 +46,13 @@ public class Gui_main extends Form {
 // =======
     Gui_main(String root){ 
         super(new FlowLayout());
-        path_btn=root+"rec/types/" ;
-        path_bkn=root+"sql/data.db";
+        path_btn=root+"rec/types/";
         init_buttons(); 
     }
 
     //! Startup buttons
     void init_buttons(){
-        for(var type: Manager.get_types(path_bkn)) plug(init_buttons(type));;        
+        for(var type: Manager.types()) plug(init_buttons(type)); 
     }
     
     //! Startup Buttons
@@ -65,6 +62,5 @@ public class Gui_main extends Form {
             public void actionPerformed(ActionEvent e){ Gui_info.get_data(btn.type,btn.icon);}}); 
         return btn;
     }
-
 }
 

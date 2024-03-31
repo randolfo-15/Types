@@ -9,7 +9,7 @@
 ************************************************************/
 import java.awt.Container;
 import java.util.ArrayList;
-
+import java.awt.event.*;
 import javax.swing.JFrame;
 import java.awt.CardLayout;
 import javax.swing.ImageIcon;
@@ -21,28 +21,38 @@ public class Manager extends JFrame{
 //  Fields
 // ========
     private static Container    panels = null;                 //< Buffer de paineis.
-    private static String       root   = "";                   //< Path absolute.
     private static CardLayout   cards  = new CardLayout();     //< Manager panel
-    private static JMenuBar     mbar   = new JMenuBar();       //< Menu Bar   
-                                                                           
+    private static Query        query  = null;                 //< Memory             
+    private JMenuBar mbar = new JMenuBar();                    //< Menu Bar   
+    
+    // Paths:
+    private String   root = "",                                //< Path absolute.
+                     rec  = "";
 // Build 
 // =====
     Manager(String path){ 
-        Manager.root=path;
+        root=path;
+        rec =path+"rec/windown/"; 
         init(path); 
     }
 
     //! Startup
     private void init(String path){
+        init_bank(); 
         init_windown();
+        init_menu();
         init_panels();
     }
+
+    //! Startup bank
+    private void init_bank(){ query = new Query(root+"sql/data.db"); }
 
     //! Startup Windown
     private void init_windown(){
        setJMenuBar(mbar);
        setSize(530, 590);                               
        setResizable(false);
+       setBackground(Form.bg);
        setIconImage(new ImageIcon(root+"/rec/windown/int.png").getImage());
        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
@@ -54,6 +64,57 @@ public class Manager extends JFrame{
        panels.add("MAIN",new Gui_main(root)); 
        panels.add("INFO",new Gui_info(root));
        panels.add("DELT",new Gui_Delt(root));
+    }
+
+    //! Startup Menu
+    private void init_menu(){
+       mbar.add(menu());
+       mbar.add(edit()); 
+       mbar.add(search());
+    }
+
+//  Menus
+// =======
+    //! Menu edit
+    private JMenu edit(){
+        JMenu menu = menu("Edit");
+        menu.add(item(" Insert","NEW"));
+        menu.add(item(" Update","EDIT"));
+        menu.add(item(" Remova","DELT"));
+        return menu;
+    }
+
+    //! Menu search
+    private JMenu search(){
+        JMenu menu = menu("Search");
+        menu.add(item("Name"     , ""));
+        menu.add(item("Category" , ""));
+        return menu;
+    }
+
+    //! Menu Disk
+    private JMenu menu(){
+        JMenu menu = menu("Menu");
+        menu.add(item("Types", "MAIN"));
+        menu.add(item("Exit" , "EXIT"));
+        return menu;
+    }
+
+    //! Menu 
+    JMenu menu(String name){
+        JMenu menu = new JMenu(name); 
+        menu.setIcon(new ImageIcon(rec+name+".png")); 
+        menu.setFont(new Fonts(17));
+        return menu;
+    }
+
+    //! Itens
+    private JMenuItem item(String name,String local){ 
+        if(local.equals("EXIT")) ;
+        JMenuItem item = new JMenuItem(name);
+        item.setFont(new Fonts(16));
+        item.addActionListener(new ActionListener(){public void actionPerformed(ActionEvent e){next(local);}});
+        return item;
     }
 
 //  Methods Move
@@ -69,54 +130,9 @@ public class Manager extends JFrame{
 // ========
     
     //! Get types
-    static ArrayList<Types> get_types(String path){return new Bank_Types(path).select_all();}
+    static ArrayList<Types> types(){return query.select_all();}
+    
+    //! Remove type
+    static boolean remove(String type){ return query.delete(type); }
 }
 
-/*
-     void define_menus(String path){
-       menus.add(jmenu(path,new JMenu("Edit"),"edit.png",edit));
-       menus.add(jmenu(path,new JMenu("Find"),"find.png",find));
-       JMenu disk = new JMenu();
-       disk.setIcon(new ImageIcon(path+"disk.png"));
-       // Add action  
-       menus.add(disk);
-       for(var menu:menus) mbar.add(menu);
-    }
-
-    JMenu jmenu(String path, JMenu menu,String png,String[] tags){
-        menu.setIcon(new ImageIcon(path+png));
-        for(var tag:tags){ 
-            JMenuItem item =new JMenuItem(tag);
-            item.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e){item_action(tag);} 
-            });
-            menu.add(item);
-        }
-        return menu;
-    }
-
-// ----------------------------------------------------------------------------
-    void item_action(String tag){
-        switch (tag){
-            case "Delete": { cards.show(buff,"delt"); } break;
-            case "Create":{}break;
-            case "Edit":{}break;
-            case "Name":{};break;
-            case "Category":{} break;
-        }
-    }
-    
-    static boolean delete_item(String name){
-        bank.delete(name);
-        for(var btn: btns_main) 
-            if(btn.my_name().equals(name)){
-                btn.setVisible(false);
-                return true;
-            }
-        return false;
-    }
-
-
-    void connect_bank(String data){ bank.connect(data).select_all(types); }
-
-*/

@@ -46,8 +46,8 @@ public class Form extends JPanel{
 // =======
    Form()                              { init(layout,null);  } //< Default layout
    Form(LayoutManager mng)             { init(mng,null);     } //< Custmized layout
-   Form(String image)                  { init(layout,image); } 
-   Form(String image,LayoutManager mng){ init(mng,image);    } 
+   Form(String image)                  { init(layout,image); } //< Panel image with default layout 
+   Form(String image,LayoutManager mng){ init(mng,image);    } //< Panel image with custmized layout 
 
    //! Initialization
    private void init(LayoutManager mng,String image){

@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Bank_Types extends Bank{
+public class Query extends Bank{
     //! Conteiner de regras sql:
     private 
     Map<Sql,String> query = new HashMap<Sql,String>();
@@ -28,8 +28,8 @@ public class Bank_Types extends Bank{
     void init(List<String> line,int i){ while(++i<Sql.size)query.put(Sql.values()[i],line.get(i));} 
     
     //! Build Class Bank_Types:
-    Bank_Types(){}
-    Bank_Types(String path){ 
+    Query(){}
+    Query(String path){ 
         super(path); 
         try{init(Files.readAllLines(Paths.get(path)),-1);} 
         catch(IOException e){msg(e);}
@@ -104,12 +104,13 @@ public class Bank_Types extends Bank{
     //  Types 
     // =======
     
-    void delete(String name){ 
+    boolean delete(String name){ 
         try{ PreparedStatement pstt=cnt.prepareStatement(query.get(Sql.T_DELETE));
              pstt.setString(1,name);        
-             pstt.executeUpdate();
+             return pstt.execute();
         
         }catch(SQLException e){msg(e);}  
+        return false;
     }
     
     void insert(Types type){ 
@@ -177,7 +178,7 @@ public class Bank_Types extends Bank{
                 type.set_size(rset.getByte("_size"));
                 type.set_min(rset.getString("_min"));
                 type.set_max(rset.getString("_max"));
-
+                
                 list.add(type);
             } 
             disconnet();
@@ -189,7 +190,7 @@ public class Bank_Types extends Bank{
         }
     }
 
-    Bank_Types connect(String url){ 
+    Query connect(String url){ 
         try{ init(Files.readAllLines(Paths.get(url+"/sql/querys.sql")),-1);
              _connect(format(url));
         
