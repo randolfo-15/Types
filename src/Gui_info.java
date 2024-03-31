@@ -16,11 +16,12 @@ import java.awt.Color;
 public class Gui_info extends Form{
 //  Fields
 // ========
-    private static final int n =8;
+    private static final int n =12;
     private static JLabel[]  inf  = new JLabel[n];       
     private static JLabel  icn  = new JLabel("                              ");    
-    private static Font    font = null;                  
-                                                        
+    private static Font    font = null;                 
+    private JLabel[] sp =new JLabel[]{new JLabel(" "),new JLabel(" "),new JLabel(" ")};                                                 
+
 //  Build
 // =======
     Gui_info(String image){ 
@@ -33,6 +34,7 @@ public class Gui_info extends Form{
         icn.setHorizontalTextPosition(SwingConstants.LEFT); 
         font = Fonts.create(path+"font/font.ttf",35);
         for(int i=0;i<n;i++) inf[i]=init_label("");
+        for(var space: sp) plug(space);
         plug(icn);
         for(var data:inf) plug(data);
     }
@@ -51,14 +53,14 @@ public class Gui_info extends Form{
 // ============
     static void get_data(Types type,String icon){
         //Sound.play(path+"sound/writing.wav");
-        inf[0].setText("     ______________________ Dados ____");
-        inf[1].setText("      # Name: "+type.get_name()+" ");
-        inf[2].setText("      # Category: "+type.get_category_name()+" ");
-        inf[3].setText("      # Ex: "+type.get_example()+" ");
-        inf[4].setText("      # Size: "+type.get_size()+" ");
-        inf[5].setText("      # Extension: ");
-        inf[6].setText("          Min: "+type.get_min()+" ");
-        inf[7].setText("          MAx: "+type.get_max()+" ");
+        inf[4].setText("     ______________________ Dados ____");
+        inf[5].setText("      # Name: "+type.get_name()+" ");
+        inf[6].setText("      # Category: "+type.get_category_name()+" ");
+        inf[7].setText("      # Ex: "+type.get_example()+" ");
+        inf[8].setText("      # Size: "+type.get_size()+" ");
+        inf[9].setText("      # Extension: ");
+        inf[10].setText("          Min: "+type.get_min()+" ");
+        inf[11].setText("          MAx: "+type.get_max()+" ");
         icn.setIcon(new ImageIcon(icon));
         Manager.next("INFO");
     }

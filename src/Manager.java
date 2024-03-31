@@ -54,7 +54,7 @@ public class Manager extends JFrame{
        setResizable(false);
        setBackground(Form.bg);
        setIconImage(new ImageIcon(root+"/rec/windown/int.png").getImage());
-       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+       setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     //! Startup Panels
@@ -71,6 +71,12 @@ public class Manager extends JFrame{
        mbar.add(menu());
        mbar.add(edit()); 
        mbar.add(search());
+    }
+
+    //! Finish
+    void finish(){
+        query.disconnet();
+        System.exit(0);
     }
 
 //  Menus
@@ -110,19 +116,17 @@ public class Manager extends JFrame{
 
     //! Itens
     private JMenuItem item(String name,String local){ 
-        if(local.equals("EXIT")) ;
         JMenuItem item = new JMenuItem(name);
+        if(local.equals("EXIT"))
+           item.addActionListener(new ActionListener(){public void actionPerformed(ActionEvent e){finish();}});
+        else 
+           item.addActionListener(new ActionListener(){public void actionPerformed(ActionEvent e){next(local);}});
         item.setFont(new Fonts(16));
-        item.addActionListener(new ActionListener(){public void actionPerformed(ActionEvent e){next(local);}});
         return item;
     }
 
 //  Methods Move
 // ==============
-    
-    //! Return main menu 
-    static void exit(){ cards.show(panels,"MAIN"); }
-
     //! Move panels
     static void next(String local){ cards.show(panels, local); }
 
