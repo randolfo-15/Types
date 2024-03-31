@@ -24,21 +24,22 @@ public class Gui_info extends Form{
 //  Build
 // =======
     Gui_info(String image){ 
-        super(image+"windown/note.jpg"); 
-        init(image);
+        super(image+"rec/windown/note.jpg"); 
+        init(image+"rec/");
     }
     
+    //! Startup
     private void init(String path){ 
         icn.setHorizontalTextPosition(SwingConstants.LEFT); 
         font = Fonts.create(path+"font/font.ttf",35);
-        for(int i=0;i<n;i++) inf[i]=write("");
+        for(int i=0;i<n;i++) inf[i]=init_label("");
         plug(icn);
         for(var data:inf) plug(data);
     }
 
 
-//! Write
-    private static JLabel write(String text){
+    //! Startup labels
+    private static JLabel init_label(String text){
         JLabel inf =new JLabel();
         inf.setFont(font);
         inf.setForeground(Color.BLUE);
@@ -48,7 +49,7 @@ public class Gui_info extends Form{
 
 // Getting data 
 // ============
-    static void get_data(Types type,String path){
+    static void get_data(Types type,String icon){
         //Sound.play(path+"sound/writing.wav");
         inf[0].setText("     ______________________ Dados ____");
         inf[1].setText("      # Name: "+type.get_name()+" ");
@@ -58,7 +59,7 @@ public class Gui_info extends Form{
         inf[5].setText("      # Extension: ");
         inf[6].setText("          Min: "+type.get_min()+" ");
         inf[7].setText("          MAx: "+type.get_max()+" ");
-        icn.setIcon(new ImageIcon(path+"types/"+type.get_icon()));
+        icn.setIcon(new ImageIcon(icon));
         Manager.next("INFO");
     }
 }

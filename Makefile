@@ -32,7 +32,7 @@ clear:
 # Execute 
 # -------
 run:
-	java -cp ".:$(Api):$(Provd):$(Jdbc):bin/" Main "$(root)"
+	java -cp ".:$(Api):$(Provd):$(Jdbc):bin/" Main "$(root)/"
 
 # Salve git 
 # --------- 

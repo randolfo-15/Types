@@ -1,7 +1,7 @@
 /*!*********************************************************
  *  Gui 
  * =====
- * @author: Randolfo
+ * @author: Randolfo A Goncalves
  * @since:  09/02/24
  * @file:   Main.java 
  *
@@ -26,159 +26,44 @@ import java.awt.Container;
 public class Gui_main extends Form {
 //  Fields
 // ========
-    final int 
-        main=0,     /*! Idx panel main */ qdlt=4, /*! Panel Quest Delete */
-        data=1,     /*! Idx panel data */
-        info=2,     /*! Idx panel info */
-        delt=3;     /*! Idx panel dlt  */
-// Item a ser deletado: 
-    protected String item_dlt="";
-
-// Banco de dados:
-    private static  Bank_Types  bank=new Bank_Types();                 //< Banco de dados
-    private List<Types> types=new ArrayList<Types>();          //< Lista de tipos catalogados
-
-// Componentes:
-    private JFrame wd= new JFrame();                                 //< Janela
-    private List<JMenu>   menus     = new ArrayList<JMenu>();        //< Menus do JMenuBar
-    private JMenuBar      mbar      = new JMenuBar();                //< Menu Bar   
-    private static List<Btn>     btns_main = new ArrayList<Btn>();
-
-    JPanel[] panels={
-        new JPanel(new FlowLayout()),      //< Main panel
-        new JPanel(new BorderLayout()),    //< Data panel
-        new JPanel(new FlowLayout()),      //< Info panel
-        new JPanel(),    //< Delete panel
-        new JPanel(new FlowLayout())       //< Quest delete
-    };
-
-    JPanel opts_delt = new JPanel();       // Opções da tela delete
-
-    private static CardLayout   cards = new CardLayout();
-    private static Container    buff  = null;
-
-// Menus:
-    private String[] edit={"Edit","Create","Delete"},          //< Edição
-                     find={"Category","Name"};                 //< Busca
-
+    // Path
+    private String path_btn="", //< Path buttons
+                   path_bkn=""; //< Path bank
+     
+    //! Class suport
+    class Btn extends JButton{
+        Types  type = null;
+        String icon = ""; 
+        
+        Btn(Types type){ 
+            this.type = type;
+            this.icon = path_btn+type.get_icon();
+            setIcon(new ImageIcon(icon)); 
+            setContentAreaFilled(false);
+            setBorderPainted(false);
+        }
+    }
 
 //  Build
 // =======
-    Gui_main(String path){ init(path); }
-
-//  Inicialização
-// ==============
-    void init(String path){
-       connect_bank(path);
-       create_container();
-       draw_windown(path+"/rec/");
-       plug_components(path+"/rec/");
+    Gui_main(String root){ 
+        super(new FlowLayout());
+        path_btn=root+"rec/types/" ;
+        path_bkn=root+"sql/data.db";
+        init_buttons(); 
     }
 
-//  Exibir Janela
-// ===============
-    public void start(){ wd.setVisible(true); }
-
-//---------------------------------> Plug <----------------------------------
-    void plug_components(String path){
-       // Buffer
-       buff.add("main",panels[main]);
-       buff.add("data",panels[data]);
-       buff.add("delt",panels[delt]);
-
-       // Panel -> Delete: 
-       panels[delt].add(new Gui_Delt(path+"windown/"));
-       
-       // Panel -> Information:
-       panels[data].add(new Gui_info(path));
-
-       // Panel -> Main:
-       for(var button:btns_main)panels[main].add(button);
-    }
-//---------------------------------> Bank <----------------------------------
-    void connect_bank(String data){ bank.connect(data).select_all(types); }
-
-//---------------------------------> Draw <----------------------------------
-// Definir diretorios:
-
-    void draw_windown(String images){
-       define_panels(images+"windown/");
-       define_frame(images+"windown/"); 
-       define_menus(images+"windown/");
-       define_buttons(images);
-    }
-   
-    void create_container(){
-       // Main:
-       buff = wd.getContentPane();    
-       buff.setLayout(cards);
+    //! Startup buttons
+    void init_buttons(){
+        for(var type: Manager.get_types(path_bkn)) plug(init_buttons(type));;        
     }
     
-    void define_panels(String path){ 
-        for(var panel: panels) panel.setBackground(bg); 
-        panels[info]=panel(path+"note.jpg",false);
-    }
-    
-    void define_frame(String path){
-       wd.setJMenuBar(mbar);
-       wd.setSize(530, 590);                               
-       wd.setResizable(false);
-       wd.setIconImage(new ImageIcon(path+"int.png").getImage());
-       wd.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  
-    }
-    
-
-    void define_menus(String path){
-       menus.add(jmenu(path,new JMenu("Edit"),"edit.png",edit));
-       menus.add(jmenu(path,new JMenu("Find"),"find.png",find));
-       JMenu disk = new JMenu();
-       disk.setIcon(new ImageIcon(path+"disk.png"));
-       // Add action  
-       menus.add(disk);
-       for(var menu:menus) mbar.add(menu);
-    }
-
-    JMenu jmenu(String path, JMenu menu,String png,String[] tags){
-        menu.setIcon(new ImageIcon(path+png));
-        for(var tag:tags){ 
-            JMenuItem item =new JMenuItem(tag);
-            item.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e){item_action(tag);} 
-            });
-            menu.add(item);
-        }
-        return menu;
-    }
-
-    void define_buttons(String path){for(var type:types)btns_main.add(create_btn_main(path,type));}
-
-    Btn create_btn_main(String path,Types type){
-            Btn btn = Btn.create(type.get_name(), path+"types/"+type.get_icon());
-            btn.addActionListener(new ActionListener(){
-                public void actionPerformed(ActionEvent e){ Gui_info.get_data(type,path);}}); 
-            return btn;
-    }
-
-//---------------------------------> Events <----------------------------------
-
-    void item_action(String tag){
-        switch (tag){
-            case "Delete": { cards.show(buff,"delt"); } break;
-            case "Create":{}break;
-            case "Edit":{}break;
-            case "Name":{};break;
-            case "Category":{} break;
-        }
-    }
-    
-    static boolean delete_item(String name){
-        bank.delete(name);
-        for(var btn: btns_main) 
-            if(btn.my_name().equals(name)){
-                btn.setVisible(false);
-                return true;
-            }
-        return false;
+    //! Startup Buttons
+    Btn init_buttons(Types type){
+        Btn btn = new Btn(type);
+        btn.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){ Gui_info.get_data(btn.type,btn.icon);}}); 
+        return btn;
     }
 
 }

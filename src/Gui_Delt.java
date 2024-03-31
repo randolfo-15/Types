@@ -27,7 +27,7 @@ public class Gui_Delt extends Form{
 // =====
     Gui_Delt(String images){ init(images); }
 
-    //! Inicialização:
+    //! Startup
     private void init(String images){
         plug(space(VERTICAL,30)); 
         plug(box("Search by name",new Component[]{
@@ -47,8 +47,8 @@ public class Gui_Delt extends Form{
     private JButton init_button(JButton btn,String path){ 
         btn.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                if(Gui_main.delete_item(txf.getText()))
-                    trash.setIcon(new ImageIcon(path+"trash_empty.png"));
+       //         if(Gui_main.delete_item(txf.getText()))
+       //             trash.setIcon(new ImageIcon(path+"trash_empty.png"));
                 txf.setText("");                       
             }
         });

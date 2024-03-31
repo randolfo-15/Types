@@ -13,6 +13,7 @@ import java.nio.file.Paths;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +31,7 @@ public class Bank_Types extends Bank{
     Bank_Types(){}
     Bank_Types(String path){ 
         super(path); 
-        try{init(Files.readAllLines(Paths.get(path+"/sql/querys.sql")),-1);} 
+        try{init(Files.readAllLines(Paths.get(path)),-1);} 
         catch(IOException e){msg(e);}
     } 
 
@@ -80,7 +81,8 @@ public class Bank_Types extends Bank{
         return ctg;
     }
 
-    void select_ALL(List<Category> list){
+    ArrayList<Category> select_ALL(){
+        ArrayList<Category> list = new ArrayList<Category>();
         try{
             ResultSet rset=stt.executeQuery("SELECT * FROM Categories");
             Category ctg = new Category();
@@ -90,7 +92,13 @@ public class Bank_Types extends Bank{
                     ctg.set_category_brief(rset.getString("_brief"));               
                 list.add(ctg);
             } 
-        }catch(SQLException e){msg(e);}
+            disconnet(); 
+            return list;
+        }catch(SQLException e){
+            msg(e); 
+            disconnet();
+            return null;
+        }
     }
 
     //  Types 
@@ -156,7 +164,8 @@ public class Bank_Types extends Bank{
 
 
 
-    void select_all(List<Types> list){
+    ArrayList<Types> select_all(){
+        ArrayList<Types> list = new ArrayList<Types>();
         try{
             ResultSet rset=stt.executeQuery("SELECT * FROM Kinds");
             while(rset.next()){
@@ -171,7 +180,13 @@ public class Bank_Types extends Bank{
 
                 list.add(type);
             } 
-        }catch(SQLException e){msg(e);}
+            disconnet();
+            return list;
+        }catch(SQLException e){
+            msg(e);
+            disconnet();
+            return null;
+        }
     }
 
     Bank_Types connect(String url){ 

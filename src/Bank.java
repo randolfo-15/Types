@@ -43,5 +43,5 @@ public class Bank{
     protected void msg(SQLException e){ System.err.println(e);}
     protected void msg(IOException e){  System.err.println(e);}
     
-    protected String format(String url){ return "jdbc:sqlite:"+url+"/sql/data.db"; }
+    protected String format(String url){ return "jdbc:sqlite:"+url; }
 }

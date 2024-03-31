@@ -1,3 +1,5 @@
+import javax.swing.JFrame;
+
 /*!*********************************************************
  *  Main 
  * ======
@@ -12,7 +14,6 @@
 public class Main{
 
     public static void main(String[] argv){ 
-        new Manager(argv[0]).start();
-        //new Gui_main(argv[0]).start(); 
+        new Manager(argv[0]).setVisible(true);
     }
 }
