@@ -1,27 +1,18 @@
 /*!*********************************************************
- *  Gui 
+ *  Gui_main 
  * =====
  * @author: Randolfo A Goncalves
  * @since:  09/02/24
- * @file:   Main.java 
+ * @file:   Gui_main.java 
  *
- * Classe dedicada para exibiçaão do programa.
+ * Classe dedicada para exibiçaão da janela principal.
 ************************************************************/
-import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.*;
-import java.awt.CardLayout;
-import java.awt.Container;
 
 public class Gui_main extends Form {
 //  Fields

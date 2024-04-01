@@ -8,15 +8,17 @@
  * Classe dedicada para gestão de paineis e memoria.
 ************************************************************/
 import java.awt.Container;
-import java.util.ArrayList;
 import java.util.List;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import java.awt.CardLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JSeparator;
+
 import java.awt.Font;
 
 public class Manager extends JFrame{
@@ -68,13 +70,15 @@ public class Manager extends JFrame{
        panels.add("MAIN",new Gui_main(root)); 
        panels.add("INFO",new Gui_info(root));
        panels.add("DELT",new Gui_Delt(root));
+       panels.add("INSR",new Gui_insr(root));
     }
 
     //! Startup Menu
     private void init_menu(){
-       mbar.add(menu());
        mbar.add(edit()); 
-       mbar.add(search());
+       //mbar.add(search());
+       //mbar.add(new JSeparator());
+       mbar.add(disk());
     }
 
 
@@ -89,8 +93,8 @@ public class Manager extends JFrame{
     //! Menu edit
     private JMenu edit(){
         JMenu menu = menu("Edit");
-        menu.add(item(" Insert","NEW"));
-        menu.add(item(" Update","EDIT"));
+        //menu.add(item(" Insert","INSR"));
+        //menu.add(item(" Update","EDIT"));
         menu.add(item(" Remova","DELT"));
         return menu;
     }
@@ -104,10 +108,10 @@ public class Manager extends JFrame{
     }
 
     //! Menu Disk
-    private JMenu menu(){
-        JMenu menu = menu("Menu");
-        menu.add(item("Types", "MAIN"));
-        menu.add(item("Exit" , "EXIT"));
+    private JMenu disk(){
+        JMenu menu = new JMenu();
+        menu.setIcon(new ImageIcon(rec+"Menu.png"));
+        menu.add(item("Menu","MAIN"));
         return menu;
     }
 
@@ -122,10 +126,7 @@ public class Manager extends JFrame{
     //! Itens
     private JMenuItem item(String name,String local){ 
         JMenuItem item = new JMenuItem(name);
-        if(local.equals("EXIT"))
-           item.addActionListener(new ActionListener(){public void actionPerformed(ActionEvent e){finish();}});
-        else 
-           item.addActionListener(new ActionListener(){public void actionPerformed(ActionEvent e){next(local);}});
+        item.addActionListener(new ActionListener(){public void actionPerformed(ActionEvent e){next(local);}});
         item.setFont(font(20));
         return item;
     }
